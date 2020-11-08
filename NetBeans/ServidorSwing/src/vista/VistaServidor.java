@@ -21,12 +21,12 @@ public class VistaServidor extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Chat");
 
-        panel = new JPanel(new GridLayout(1, 1, 10, 10));
-        add(panel);
-
         pantalla = new JTextArea();
         pantalla.setEditable(false);
 
+        panel = new JPanel(new GridLayout(1, 1, 10, 10));
+
+        add(panel);
         panel.add(new JScrollPane(pantalla));
     }
 }

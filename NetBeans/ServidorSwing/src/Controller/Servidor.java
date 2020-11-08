@@ -7,11 +7,13 @@ package controller;
 
 import clases.User;
 import clases.PaqueteEnvio;
+import clases.Util;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import javax.swing.JTextArea;
 import vista.VistaServidor;
 
 /**
@@ -21,16 +23,14 @@ import vista.VistaServidor;
 public class Servidor implements Runnable {
 
     private static ArrayList<User> usuarios;
-    private final int PUERTO_SERVIDOR = 9999;
-    private final int PUERTO_CLIENTE = 9090;
-    private final VistaServidor vista;
+    private final JTextArea pantalla;
 
-    public Servidor(VistaServidor vista) {
-        this.vista = vista;
+    public Servidor(VistaServidor vista) {        
+        this.pantalla = vista.pantalla;
         vista.setVisible(true);
-        usuarios = new ArrayList<>();
-        this.iniciar();
-        this.vista.pantalla.append("Servidor conectado\n");
+        usuarios = new ArrayList<>();       
+        pantalla.append("Servidor conectado\n");
+        iniciar();
     }
 
     private void iniciar() {
@@ -41,7 +41,7 @@ public class Servidor implements Runnable {
     @Override
     public void run() {
         try {
-            ServerSocket servidor = new ServerSocket(PUERTO_SERVIDOR);
+            ServerSocket servidor = new ServerSocket(Util.PUERTO_SERVIDOR);
             while (true) {
                 try (Socket misocket = servidor.accept(); ObjectInputStream paqueteDatos = new ObjectInputStream(misocket.getInputStream())) {
                     PaqueteEnvio paqueteRecibido = (PaqueteEnvio) paqueteDatos.readObject();
@@ -51,17 +51,17 @@ public class Servidor implements Runnable {
                         usuarios.add(origen);
                         PaqueteEnvio usuariosConectados = new PaqueteEnvio(null, origen, "");
                         usuariosConectados.setIps(usuarios);
-                        vista.pantalla.append("Conectado: " + origen + "\n");
+                        pantalla.append("Conectado: " + origen + "\n");
                         usuarios.forEach(u -> {
                             try {
-                                usuariosConectados.send(u.getIp(), PUERTO_CLIENTE);
+                                usuariosConectados.send(u.getIp(), Util.PUERTO_CLIENTE);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         });
                     } else {
-                        paqueteRecibido.send(destino.getIp(), PUERTO_CLIENTE);
-                        vista.pantalla.append(paqueteRecibido.toString());
+                        paqueteRecibido.send(destino.getIp(), Util.PUERTO_CLIENTE);
+                        pantalla.append(paqueteRecibido.toString() + "\n");
                     }
                 }
             }
@@ -73,7 +73,7 @@ public class Servidor implements Runnable {
     }
 
     public static void main(String[] args) {
-        Servidor server = new Servidor(new VistaServidor());
+        Servidor servidor = new Servidor(new VistaServidor());
     }
 
 }
