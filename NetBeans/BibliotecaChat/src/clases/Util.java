@@ -17,8 +17,8 @@ public class Util {
 
     public static final int PUERTO_SERVIDOR = 9999;
     public static final int PUERTO_CLIENTE = 9090;
-    public static final String IP_SERVIDOR = "192.168.1.34";
-
+    public static final String IP_SERVIDOR = "192.168.26.108";
+    //192.168.26.108 -> clase
     public static String getIp() {
         String ip = "";
         try (Socket socket = new Socket()) {

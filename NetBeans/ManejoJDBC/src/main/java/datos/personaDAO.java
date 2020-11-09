@@ -26,7 +26,10 @@ public class personaDAO {
     public ArrayList<Persona> selectAll() {
         ArrayList<Persona> personas = new ArrayList<>();
         Persona p;
-        try (ResultSet rs = Conexion.getResultSet(SQL_SELECT)) {
+        try {
+            Connection conn = Conexion.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(SQL_SELECT);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 p = crearPersona(rs);
                 personas.add(p);

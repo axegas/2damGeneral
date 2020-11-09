@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Petshow</string>
+    <string name="title_activity_visor">Visor</string>
+    <string name="btnVerPerrito">Ver Perrito</string>
+    <string name="imagenperrito">ImagenPerrito</string>
+    <string name="nombre_mascota">Titulo</string>
+    <string name="button">Aceptar</string>
+    <string name="radio_button1">Hermoso</string>
+    <string name="radio_button2">Lindo</string>
+    <string name="radio_button3">Normal</string>
+    <string name="radio_button4">Horroroso</string>
+    <string name="tvValoracion"></string>
+    <string name="linkAutores">Autores</string>
+</resources>

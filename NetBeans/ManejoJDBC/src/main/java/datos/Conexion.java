@@ -22,8 +22,9 @@ public class Conexion {
     private static final String USUARIO = "root";
     private static final String CLAVE = "apg946130";
     private static final String URL = "jdbc:mysql://" + HOST + ":3306/" + DB + "?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+    
+    /*
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-
     static {
         try {
             Class.forName(DRIVER);
@@ -31,15 +32,10 @@ public class Conexion {
             e.printStackTrace();
         }
     }
-
+    */
+    
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USUARIO, CLAVE);
-    }
-
-    public static ResultSet getResultSet(String sql) throws SQLException {
-        PreparedStatement stmt = getConnection().prepareStatement(sql);
-        ResultSet rs = stmt.executeQuery();
-        return rs;
     }
 
 }

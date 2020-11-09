@@ -54,7 +54,7 @@ public class Cliente implements Runnable {
         try {
             paquete.send(Util.IP_SERVIDOR, Util.PUERTO_SERVIDOR);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
     }
 
@@ -67,7 +67,7 @@ public class Cliente implements Runnable {
         try {
             paquete.send(Util.IP_SERVIDOR, Util.PUERTO_SERVIDOR);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
     }
 
@@ -93,7 +93,7 @@ public class Cliente implements Runnable {
             }
 
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace(System.out);
         }
 
     }

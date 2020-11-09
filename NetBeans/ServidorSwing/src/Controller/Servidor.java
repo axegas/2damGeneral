@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package Controller;
 
 import clases.User;
 import clases.PaqueteEnvio;
@@ -56,7 +56,7 @@ public class Servidor implements Runnable {
                             try {
                                 usuariosConectados.send(u.getIp(), Util.PUERTO_CLIENTE);
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                e.printStackTrace(System.out);
                             }
                         });
                     } else {
@@ -67,7 +67,7 @@ public class Servidor implements Runnable {
             }
 
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace(System.out);
         }
 
     }
