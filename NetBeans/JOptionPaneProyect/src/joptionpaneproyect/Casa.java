@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,7 +21,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 /**
  *
@@ -35,6 +35,7 @@ public class Casa extends JFrame implements ActionListener {
     private JCheckBoxMenuItem jCheckMenu1;
     private JRadioButtonMenuItem rbCocina, rbBanyo;
     private ButtonGroup group;
+    private JDesktopPane desktop;
 
     public Casa() {
         initComponents();
@@ -46,11 +47,13 @@ public class Casa extends JFrame implements ActionListener {
         setTitle("Menu");
 
         setLayout(new BorderLayout());
+
         pnlMenuBar = new JPanel(new FlowLayout());
         pnlMain = new JPanel();
 
         add(pnlMenuBar, BorderLayout.NORTH);
         add(pnlMain, BorderLayout.CENTER);
+
         mnBar = new JMenuBar();
 
         pnlMenuBar.add(mnBar);
@@ -69,16 +72,19 @@ public class Casa extends JFrame implements ActionListener {
 
         jCheckMenu1 = new JCheckBoxMenuItem("Salón");
         jCheckMenu1.setSelected(true);
+        jCheckMenu1.setMnemonic(KeyEvent.VK_S);
+        jCheckMenu1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+
         menuCasa.add(jCheckMenu1);
         menuCasa.addSeparator();
-        menuItem.setMnemonic(KeyEvent.VK_N);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("new");
-        menuItem.addActionListener(this);
         group = new ButtonGroup();
 
         rbCocina = new JRadioButtonMenuItem("Cocina");
+        rbCocina.setMnemonic(KeyEvent.VK_C);
+        rbCocina.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
         rbBanyo = new JRadioButtonMenuItem("Baño");
+        rbBanyo.setMnemonic(KeyEvent.VK_B);
+        rbBanyo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK));
 
         group.add(rbCocina);
         group.add(rbBanyo);
@@ -86,8 +92,12 @@ public class Casa extends JFrame implements ActionListener {
         menuCasa.add(rbBanyo);
 
         menuItem = new JMenuItem("Garaje");
+        menuItem.setMnemonic(KeyEvent.VK_G);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.ALT_MASK));
         menuExtras.add(menuItem);
         menuItem = new JMenuItem("Trastero");
+        menuItem.setMnemonic(KeyEvent.VK_T);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.ALT_MASK));
         menuExtras.add(menuItem);
 
         ImageIcon imagen = new ImageIcon(getClass().getResource("/images/casa.png"));
@@ -98,6 +108,6 @@ public class Casa extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 }
