@@ -5,13 +5,11 @@
  */
 package com.projectmusiccrud.view;
 
-import com.projectmusiccrud.model.Record;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -37,15 +35,7 @@ public class ViewRecord extends JFrame {
     public ViewRecord() {
         initComponents();
     }
-/*
-    public void viewRecord(Record record) {
-        System.out.println("Record data: " + record);
-    }
 
-    public void viewRecords(ArrayList<Record> records) {
-        records.forEach(r -> System.out.println("Record data: " + r));
-    }
-*/
     public void viewRecordsTable(DefaultTableModel model) {
         table.setModel(model);
     }
@@ -59,8 +49,8 @@ public class ViewRecord extends JFrame {
         table = new JTable();
         btnUpdate = new JButton("Update");
         btnDelete = new JButton("Delete");
-        
-        pnlMain = new JPanel(new GridLayout(2,1,10,10));
+        GridLayout g = new GridLayout(2,1,10,10);
+        pnlMain = new JPanel(g);
         pnlTop = new JPanel(new BorderLayout());
         pnlBottom = new JPanel(new FlowLayout());
         

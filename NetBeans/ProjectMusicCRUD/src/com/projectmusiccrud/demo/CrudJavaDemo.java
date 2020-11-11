@@ -17,20 +17,9 @@ public class CrudJavaDemo {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /* Record record = new Record("1717213183", "Elivar", 1977);
-
-      
-
-        // controller.insert(record);
-        record.setId(3);
-        record.setName("Ernesto");
-        controller.update(record);
-
-        record.setId(2);
-        //controller.delete(record);
-        controller.verClientes();*/
 
         ControllerRecord controller = new ControllerRecord();
+        //controller.selectModelArray();
         controller.selectModel();
 
     }

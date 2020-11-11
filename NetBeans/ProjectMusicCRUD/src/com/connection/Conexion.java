@@ -25,7 +25,7 @@ public class Conexion {
         return DriverManager.getConnection(URL, USUARIO, CLAVE);
     }
 
-    
+    /*
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     static {
         try {
@@ -34,9 +34,9 @@ public class Conexion {
             e.printStackTrace(System.out);
         }
     }
-     
+     */
  /*
-    
+    CREATE SCHEMA `music_db` ;
 CREATE TABLE `music_db`.`record` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
