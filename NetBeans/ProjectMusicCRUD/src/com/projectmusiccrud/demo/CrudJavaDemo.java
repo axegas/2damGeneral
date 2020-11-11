@@ -19,9 +19,7 @@ public class CrudJavaDemo {
     public static void main(String[] args) {
 
         ControllerRecord controller = new ControllerRecord();
-        //controller.selectModelArray();
         controller.selectModel();
-
     }
 
 }

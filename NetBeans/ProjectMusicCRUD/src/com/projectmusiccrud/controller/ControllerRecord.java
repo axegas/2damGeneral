@@ -9,8 +9,6 @@ import com.projectmusiccrud.dao.RecordDaoImpl;
 import com.projectmusiccrud.model.Record;
 import com.projectmusiccrud.view.ViewRecord;
 import com.projectmusiccrud.idao.IDao;
-import java.util.ArrayList;
-import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -44,32 +42,7 @@ public class ControllerRecord {
     public void selectModel() {
         IDao dao = new RecordDaoImpl();
         DefaultTableModel model = dao.selectModel();
-        Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR"};
-        model.setColumnIdentifiers(tags);
         view.viewRecordsTable(model);
-    }
-
-    public void selectModelArray() {
-        IDao dao = new RecordDaoImpl();
-        ArrayList<Record> records = dao.select();
-        Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR"};
-        DefaultTableModel model = arrayToModel(records);
-        model.setColumnIdentifiers(tags);
-        view.viewRecordsTable(model);
-    }
-
-    private DefaultTableModel arrayToModel(ArrayList<Record> records) {
-        DefaultTableModel model = new DefaultTableModel();
-        
-        for (int i = 0; i < records.size(); i++) {
-            Object[] fila = new Object[4];
-            fila[0] = records.get(i).getId();
-            fila[1] = records.get(i).getName();
-            fila[2] = records.get(i).getComposer();
-            fila[3] = records.get(i).getYear();
-            model.addRow(fila);
-        }
-        return model;
     }
 
 }
