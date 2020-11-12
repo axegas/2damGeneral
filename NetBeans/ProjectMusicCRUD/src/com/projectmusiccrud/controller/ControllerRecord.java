@@ -5,44 +5,66 @@
  */
 package com.projectmusiccrud.controller;
 
-import com.projectmusiccrud.dao.RecordDaoImpl;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.projectmusiccrud.dao.DaoRecord;
 import com.projectmusiccrud.model.Record;
-import com.projectmusiccrud.view.ViewRecord;
-import com.projectmusiccrud.idao.IDao;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author peixe
  */
-public class ControllerRecord {
+public class ControllerRecord{
 
-    private final ViewRecord view;
-
-    public ControllerRecord() {
-        view = new ViewRecord();
-        view.setVisible(true);
+    private final DaoRecord dao;
+    
+    public ControllerRecord(DaoRecord dao){
+        this.dao = dao;
     }
-
+    
     public void insert(Record record) {
-        IDao dao = new RecordDaoImpl();
         dao.insert(record);
     }
 
     public void update(Record record) {
-        IDao dao = new RecordDaoImpl();
         dao.update(record);
     }
 
     public void delete(Record record) {
-        IDao dao = new RecordDaoImpl();
         dao.delete(record);
     }
 
-    public void selectModel() {
-        IDao dao = new RecordDaoImpl();
-        DefaultTableModel model = dao.selectModel();
-        view.viewRecordsTable(model);
+    public DefaultTableModel selectModel() {
+        DefaultTableModel model = dao.selectModel();        
+        return model;
     }
+    
+     public void createPDF(ArrayList<Record> records) {
+        try {
+            String text = "Record List:\n\n";
+            
+            for(Record r : records){
+                text += r;
+            }
 
+            Document doc = new Document(PageSize.A4, 50, 50, 100, 72);
+            PdfWriter.getInstance(doc, new FileOutputStream("Records List.pdf"));
+            doc.open();
+            Paragraph p = new Paragraph(text);
+            p.setAlignment(Element.ALIGN_JUSTIFIED);
+
+            doc.add(p);
+            doc.close();
+        } catch (DocumentException | FileNotFoundException e) {
+            e.printStackTrace(System.out);
+        }
+    }
 }

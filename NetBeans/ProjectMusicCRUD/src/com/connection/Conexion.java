@@ -35,26 +35,24 @@ public class Conexion {
         }
     }
      */
+    
+    
  /*
     CREATE SCHEMA `music_db` ;
-CREATE TABLE `music_db`.`record` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `composer` VARCHAR(45) NOT NULL,
-  `year` INT NULL,
-  PRIMARY KEY (`id`));
-    
+    DROP TABLE record;
+    CREATE TABLE IF NOT EXISTS `music_db`.`record` (
+        `id` INT NOT NULL AUTO_INCREMENT,
+        `name` VARCHAR(45) NOT NULL,
+        `composer` VARCHAR(45) NOT NULL,
+        `year` INT NULL,
+        PRIMARY KEY (`id`));
     
     INSERT INTO record (name, composer, year) VALUES ("asd","asd",1985);
-INSERT INTO record (name, composer, year) VALUES ("xfgj","zdsf",1986);
-INSERT INTO record (name, composer, year) VALUES ("zdh","ngbhf",1999);
-INSERT INTO record (name, composer, year) VALUES ("zdfh","sdf",2002);
-INSERT INTO record (name, composer, year) VALUES ("zdfh","dfh",1981);
-INSERT INTO record (name, composer, year) VALUES ("zdfh","sdfg",1955);
-INSERT INTO record (name, composer, year) VALUES ("zfdh","dfh",2010);
-    
-    
-    
-    
+    INSERT INTO record (name, composer, year) VALUES ("xfgj","zdsf",1986);
+    INSERT INTO record (name, composer, year) VALUES ("zdh","ngbhf",1999);
+    INSERT INTO record (name, composer, year) VALUES ("zdfh","sdf",2002);
+    INSERT INTO record (name, composer, year) VALUES ("zdfh","dfh",1981);
+    INSERT INTO record (name, composer, year) VALUES ("zdfh","sdfg",1955);
+    INSERT INTO record (name, composer, year) VALUES ("zfdh","dfh",2010);
      */
 }

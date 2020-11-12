@@ -16,6 +16,7 @@ public class Record {
     private int year;
 
     public Record() {
+
     }
 
     public Record(int id, String name, String composer, int year) {
@@ -65,7 +66,7 @@ public class Record {
 
     @Override
     public String toString() {
-        return "Record{" + "id=" + id + ", name=" + name + ", composer=" + composer + ", year=" + year + '}';
+        return "Name: " + name + ", Composer: " + composer + ", Year: " + year + '\n';
     }
     
     

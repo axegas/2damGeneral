@@ -16,6 +16,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Casa f = new Casa();
+        //Menu f = new Menu();
         f.setVisible(true);
 
     }

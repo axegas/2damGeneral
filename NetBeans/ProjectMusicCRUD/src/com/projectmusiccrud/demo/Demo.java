@@ -6,20 +6,22 @@
 package com.projectmusiccrud.demo;
 
 import com.projectmusiccrud.controller.ControllerRecord;
+import com.projectmusiccrud.dao.DaoRecord;
+import com.projectmusiccrud.view.ViewRecordMain;
 
 /**
  *
  * @author peixe
  */
-public class CrudJavaDemo {
+public class Demo {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
 
-        ControllerRecord controller = new ControllerRecord();
-        controller.selectModel();
+        ViewRecordMain view = new ViewRecordMain(new ControllerRecord(new DaoRecord()));
+        view.setVisible(true);
     }
 
 }

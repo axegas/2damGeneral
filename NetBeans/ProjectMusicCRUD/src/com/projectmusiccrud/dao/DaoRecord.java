@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author peixe
  */
-public class RecordDaoImpl implements IDao {
+public class DaoRecord implements IDao {
 
     private final static String SQL_SELECT = "select * from record";
     private final static String SQL_INSERT = "insert into record (name,composer,year)values(?,?,?)";
@@ -45,15 +45,19 @@ public class RecordDaoImpl implements IDao {
 
     @Override
     public DefaultTableModel selectModel() {
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR"};
         model.setColumnIdentifiers(tags);
-        Object[] rowData = new Object[model.getColumnCount()];
         try (Connection conn = Conexion.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(SQL_SELECT);
                 ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {                
-                rowData = setRow(rowData,rs);
+            while (rs.next()) {
+                Object[] rowData = setRow(tags, rs);
                 model.addRow(rowData);
             }
         } catch (SQLException e) {
@@ -118,11 +122,11 @@ public class RecordDaoImpl implements IDao {
         return r;
     }
 
-    private Object[] setRow(Object[] rowData, ResultSet rs) throws SQLException {
-        for(int i=0;i<rowData.length;i++){
-            rowData[i] = rs.getObject(i+1);
+    private Object[] setRow(Object[] tags, ResultSet rs) throws SQLException {
+        Object[] rowData = new Object[tags.length];
+        for (int i = 0; i < tags.length; i++) {
+            rowData[i] = rs.getObject(i + 1);
         }
         return rowData;
     }
-
 }
