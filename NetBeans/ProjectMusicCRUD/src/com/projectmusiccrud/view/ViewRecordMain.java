@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
@@ -71,6 +72,9 @@ public class ViewRecordMain extends JFrame {
         add(pnlMain);
         pnlMain.add(pnlTop, BorderLayout.CENTER);
         pnlMain.add(pnlBottom, BorderLayout.SOUTH);
+        
+        JTextArea t = new JTextArea();
+        
 
     }
 
@@ -101,9 +105,9 @@ public class ViewRecordMain extends JFrame {
     private void setColumnPrefWidth() {
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(20);
-        columnModel.getColumn(1).setPreferredWidth(150);
-        columnModel.getColumn(2).setPreferredWidth(200);
-        columnModel.getColumn(3).setPreferredWidth(20);
+        columnModel.getColumn(1).setPreferredWidth(170);
+        columnModel.getColumn(2).setPreferredWidth(150);
+        columnModel.getColumn(3).setPreferredWidth(30);
     }
 
     private Record getSelectedValue(int n) {
