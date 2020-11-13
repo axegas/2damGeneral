@@ -36,13 +36,6 @@ public class TestManejoPersonas {
             personaDao.update(cambioPersona);
             
             Persona nuevaPersona = new Persona();
-            nuevaPersona.setNombre("federico");
-            nuevaPersona.setApellidos("Ramirez");
-            nuevaPersona.setEmail("kgomez@mail.com");
-            nuevaPersona.setEdad(444);
-            personaDao.insert(nuevaPersona);
- 
-            nuevaPersona = new Persona();
             nuevaPersona.setNombre("yyyyyyyyyyyyyyyyyyyy");
             nuevaPersona.setApellidos("Ramirez");
             nuevaPersona.setEmail("kgomez@mail.commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
