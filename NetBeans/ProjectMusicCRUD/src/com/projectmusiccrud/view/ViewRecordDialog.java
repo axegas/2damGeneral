@@ -6,11 +6,11 @@
 package com.projectmusiccrud.view;
 
 import com.projectmusiccrud.model.Record;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 

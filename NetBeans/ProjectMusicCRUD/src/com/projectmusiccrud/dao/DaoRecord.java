@@ -27,24 +27,7 @@ public class DaoRecord implements IDao {
     private final static String SQL_DELETE = "delete from record where id=?";
 
     @Override
-    public ArrayList<Record> select() {
-        ArrayList<Record> records = new ArrayList<>();
-        Record r;
-        try (Connection conn = Conexion.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(SQL_SELECT);
-                ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                r = createRecord(rs);
-                records.add(r);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(System.out);
-        }
-        return records;
-    }
-
-    @Override
-    public DefaultTableModel selectModel() {
+    public DefaultTableModel select() {
         DefaultTableModel model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {

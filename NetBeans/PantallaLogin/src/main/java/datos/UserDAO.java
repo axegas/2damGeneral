@@ -7,6 +7,7 @@ package datos;
 
 import domain.User;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class UserDAO {
 
     private final static String SQL_SELECT = "select * from user";
-    private final static String SQL_INSERT = "insert into user(nick,password)values(?,?)";
+    private final static String SQL_INSERT = "insert into user(nick,password,fecha)values(?,?,?)";
     //private final static String SQL_UPDATE = "update persona set nombre='?',apellidos='?',edad='?' where id=?";
     //private final static String SQL_DELETE = "delete from persona where id=?";
 
@@ -52,6 +53,7 @@ public class UserDAO {
         try (Connection conn = Conexion.getConnection(); PreparedStatement stmt = conn.prepareStatement(SQL_INSERT)) {
             stmt.setString(1, u.getNick());
             stmt.setString(2, u.getPassword());
+            stmt.setDate(3, u.getFecha());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,7 +64,8 @@ public class UserDAO {
         int id = rs.getInt(1);
         String nick = rs.getString(2);
         String password = rs.getString(3);
-        User u = new User(id, nick, password);
+        Date fecha = rs.getDate(4);
+        User u = new User(id, nick, password, fecha);
         return u;
     }
 }

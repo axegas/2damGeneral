@@ -16,20 +16,21 @@ import com.projectmusiccrud.model.Record;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author peixe
  */
-public class ControllerRecord{
+public class ControllerRecord {
 
     private final DaoRecord dao;
-    
-    public ControllerRecord(DaoRecord dao){
+
+    public ControllerRecord(DaoRecord dao) {
         this.dao = dao;
     }
-    
+
     public void insert(Record record) {
         dao.insert(record);
     }
@@ -43,20 +44,28 @@ public class ControllerRecord{
     }
 
     public DefaultTableModel selectModel() {
-        DefaultTableModel model = dao.selectModel();        
+        DefaultTableModel model = dao.select();
         return model;
     }
-    
-     public void createPDF(ArrayList<Record> records) {
+
+    public void createPDF(ArrayList<Record> records) {
         try {
             String text = "Record List:\n\n";
-            
-            for(Record r : records){
+
+            for (Record r : records) {
                 text += r;
             }
 
+            JFileChooser f = new JFileChooser();
+            f.showSaveDialog(null);
+
+            String fichero = f.getSelectedFile().toString();
+            if(!fichero.endsWith(".pdf")){
+                fichero += ".pdf";
+            }
+
             Document doc = new Document(PageSize.A4, 50, 50, 100, 72);
-            PdfWriter.getInstance(doc, new FileOutputStream("Records List.pdf"));
+            PdfWriter.getInstance(doc, new FileOutputStream(fichero));
             doc.open();
             Paragraph p = new Paragraph(text);
             p.setAlignment(Element.ALIGN_JUSTIFIED);

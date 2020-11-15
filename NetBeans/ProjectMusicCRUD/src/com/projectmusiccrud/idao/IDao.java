@@ -5,8 +5,6 @@
  */
 package com.projectmusiccrud.idao;
 
-import com.projectmusiccrud.model.Record;
-import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,13 +14,11 @@ import javax.swing.table.DefaultTableModel;
 public interface IDao {
 
     public boolean insert(Object object);
-
-    public ArrayList<Record> select();
-
+    
     public boolean update(Object object);
 
     public boolean delete(Object object);
 
-    public DefaultTableModel selectModel();
+    public DefaultTableModel select();
 
 }

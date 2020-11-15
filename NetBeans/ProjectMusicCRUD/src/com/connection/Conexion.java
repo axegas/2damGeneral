@@ -25,16 +25,7 @@ public class Conexion {
         return DriverManager.getConnection(URL, USUARIO, CLAVE);
     }
 
-    /*
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    static {
-        try {
-            Class.forName(DRIVER);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace(System.out);
-        }
-    }
-     */
+   
  /*
     CREATE SCHEMA `music_db` ;
     DROP TABLE record;

@@ -17,7 +17,7 @@ import java.sql.SQLException;
  */
 public class Conexion {
 
-    private static final String DB = "PantallaLogin";
+    private static final String DB = "pantallalogin";
     private static final String HOST = "localhost";
     private static final String USUARIO = "root";
     private static final String CLAVE = "apg946130";

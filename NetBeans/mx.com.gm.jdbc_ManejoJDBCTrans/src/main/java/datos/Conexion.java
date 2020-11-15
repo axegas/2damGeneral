@@ -23,20 +23,19 @@ public class Conexion {
     private static final String CLAVE = "apg946130";
     private static final String URL = "jdbc:mysql://" + HOST + ":3306/" + DB + "?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
 
-    
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USUARIO, CLAVE);
     }
-    
-    public static void close(ResultSet rs) throws SQLException{
+
+    public static void close(ResultSet rs) throws SQLException {
         rs.close();
     }
-    
-    public static void close(PreparedStatement stm) throws SQLException{
+
+    public static void close(PreparedStatement stm) throws SQLException {
         stm.close();
     }
-    
-    public static void close(Connection con) throws SQLException{
+
+    public static void close(Connection con) throws SQLException {
         con.close();
     }
 

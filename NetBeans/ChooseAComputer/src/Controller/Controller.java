@@ -13,6 +13,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -22,8 +23,16 @@ public class Controller {
 
     public void createPDF(String str) {
         try {
+
+            JFileChooser f = new JFileChooser();
+            f.showSaveDialog(null);
+            String fichero = f.getSelectedFile().toString() + ".pdf";
+
+            
+            
+            
             Document doc = new Document(PageSize.A4, 50, 50, 100, 72);
-            PdfWriter.getInstance(doc, new FileOutputStream("Factura.pdf"));
+            PdfWriter.getInstance(doc, new FileOutputStream(fichero));
             doc.open();
             Paragraph p = new Paragraph("Total factura:\n" + str);
             p.setAlignment(Element.ALIGN_JUSTIFIED);

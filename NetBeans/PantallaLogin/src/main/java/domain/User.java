@@ -5,20 +5,38 @@
  */
 package domain;
 
+import java.sql.Date;
+
 /**
  *
  * @author axegas
  */
 public class User {
-    
+
     private int id;
     private String nick;
     private String password;
+    private Date fecha;
 
-    public User(int id, String nick, String password) {
+    public User(int id, String nick, String password, Date fecha) {
         this.id = id;
         this.nick = nick;
         this.password = password;
+        this.fecha = fecha;
+    }
+
+    public User(String nick, String password, Date fecha) {
+        this.nick = nick;
+        this.password = password;
+        this.fecha = fecha;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public User() {
@@ -57,7 +75,5 @@ public class User {
     public String toString() {
         return "User{" + "id=" + id + ", nick=" + nick + ", password=" + password + '}';
     }
-    
-    
-    
+
 }

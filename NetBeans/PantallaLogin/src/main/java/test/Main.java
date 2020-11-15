@@ -8,6 +8,7 @@ package test;
 import UI.MainFrame;
 import datos.UserDAO;
 import domain.User;
+import java.sql.Date;
 import java.util.ArrayList;
 
 /**
@@ -18,8 +19,8 @@ public class Main {
 
     public static void main(String[] args) {
          UserDAO dao = new UserDAO();       
-         
-         
+         Date fecha = new Date(2020,11,10);
+         dao.insert(new User("paco","123",fecha));
          
 
 
@@ -32,8 +33,8 @@ public class Main {
         //dao.delete(personas.get(3));
         //personas = dao.selectAll();
         //   personas.forEach(p -> System.out.println(p));
-        MainFrame f = new MainFrame(new MainController());
-        f.setVisible(true);
+        //MainFrame f = new MainFrame(new MainController());
+        //f.setVisible(true);
         
     }
 
