@@ -36,23 +36,18 @@ public class Test {
 //            for (int i = 0; i < wallets.size(); i++) {
 //                F.recargarWallet(wallets.get(i), r.nextInt(500));
 //            }
-
             //unas cuantas compras de prueba - con saldo
 //            for (int i = 0; i < 100; i++) {
 //                int w = r.nextInt(wallets.size());
 //                int p = r.nextInt(productos.size());
 //                F.pagarCompraConSaldo(wallets.get(w), productos.get(p));
 //            }
-
             //unas cuantas compras de prueba - con puntos
 //            for (int i = 0; i < 100; i++) {
 //                int w = r.nextInt(wallets.size());
 //                int p = r.nextInt(productos.size());
 //                F.pagarCompraConPuntos(wallets.get(w), productos.get(p));
 //            }
-
-
-
             //Seleccionamos las compras que hemos realizado
             ArrayList<Compra> compras = daoc.select();
 

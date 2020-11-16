@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -21,8 +22,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
@@ -36,14 +38,17 @@ public class ViewRecordMain extends JFrame {
     private JPanel pnlTop, pnlBottom, pnlMain;
     private JMenuBar mnBar;
     private JButton btnUpdate, btnDelete;
+    private JTextField txtSearch;
+    private JLabel lblSearch;
     private final ControllerRecord controller;
 
     public ViewRecordMain(ControllerRecord controller) {
         this.controller = controller;
         initComponents();
         configMenuBar();
+
         reload();
-        setColumnPrefWidth();
+        setColumnSize();
     }
 
     private void initComponents() {
@@ -56,7 +61,10 @@ public class ViewRecordMain extends JFrame {
 
         btnUpdate = new JButton("Update");
         btnDelete = new JButton("Delete");
+        lblSearch = new JLabel("Search");
+        txtSearch = new JTextField(20);
 
+        txtSearch.addActionListener(t -> search());
         btnUpdate.addActionListener(b -> update());
         btnDelete.addActionListener(b -> delete());
 
@@ -68,19 +76,19 @@ public class ViewRecordMain extends JFrame {
         pnlTop.add(new JScrollPane(table), BorderLayout.CENTER);
         pnlBottom.add(btnUpdate);
         pnlBottom.add(btnDelete);
+        pnlBottom.add(lblSearch);
+        pnlBottom.add(txtSearch);
 
         add(pnlMain);
         pnlMain.add(pnlTop, BorderLayout.CENTER);
         pnlMain.add(pnlBottom, BorderLayout.SOUTH);
-        
-        JTextArea t = new JTextArea();
-        
 
     }
 
     private void configMenuBar() {
         JMenu menuOptions = new JMenu("Options");
         mnBar.add(menuOptions);
+
         JMenuItem menuItem = new JMenuItem("New");
         menuItem.setMnemonic(KeyEvent.VK_N);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
@@ -102,9 +110,13 @@ public class ViewRecordMain extends JFrame {
         menuItem.addActionListener(t -> print());
     }
 
-    private void setColumnPrefWidth() {
+    private void reload() {
+        table.setModel(controller.selectModel());
+    }
+
+    private void setColumnSize() {
         TableColumnModel columnModel = table.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(20);
+        columnModel.getColumn(0).setPreferredWidth(10);
         columnModel.getColumn(1).setPreferredWidth(170);
         columnModel.getColumn(2).setPreferredWidth(150);
         columnModel.getColumn(3).setPreferredWidth(30);
@@ -123,17 +135,13 @@ public class ViewRecordMain extends JFrame {
         return r;
     }
 
-    private void reload() {
-        table.setModel(controller.selectModel());
-    }
-
     private void insert() {
         Record r = new Record();
         ViewRecordDialog modalDialog = new ViewRecordDialog(this, r, "Insert");
         modalDialog.pack();
         modalDialog.setVisible(true);
         r = modalDialog.getRecord();
-        if (r != null) {
+        if (r != null && r.getName() != null) {
             controller.insert(r);
             reload();
         }
@@ -147,6 +155,7 @@ public class ViewRecordMain extends JFrame {
             ViewRecordDialog modalDialog = new ViewRecordDialog(this, r, "Update");
             modalDialog.pack();
             modalDialog.setVisible(true);
+
             r = modalDialog.getRecord();
             if (r != null) {
                 controller.update(r);
@@ -178,7 +187,23 @@ public class ViewRecordMain extends JFrame {
             }
             reload();
         }
+    }
 
+    private void search() {
+        String name = txtSearch.getText();
+        if (!name.equals("")) {
+            DefaultTableModel model = controller.selectModelByName(name);
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "No records found", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+                table.setModel(model);
+                setColumnSize();
+            }
+        }else{
+            reload();
+            setColumnSize();
+        }
+        txtSearch.setText("");
     }
 
     private void print() {

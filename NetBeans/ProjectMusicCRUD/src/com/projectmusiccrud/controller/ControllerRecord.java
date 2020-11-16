@@ -27,8 +27,8 @@ public class ControllerRecord {
 
     private final DaoRecord dao;
 
-    public ControllerRecord(DaoRecord dao) {
-        this.dao = dao;
+    public ControllerRecord() {
+        this.dao = new DaoRecord();
     }
 
     public void insert(Record record) {
@@ -48,6 +48,11 @@ public class ControllerRecord {
         return model;
     }
 
+    public DefaultTableModel selectModelByName(String name) {
+        DefaultTableModel model = dao.selectByName(name);
+        return model;
+    }
+
     public void createPDF(ArrayList<Record> records) {
         try {
             String text = "Record List:\n\n";
@@ -59,13 +64,17 @@ public class ControllerRecord {
             JFileChooser f = new JFileChooser();
             f.showSaveDialog(null);
 
-            String fichero = f.getSelectedFile().toString();
-            if(!fichero.endsWith(".pdf")){
-                fichero += ".pdf";
+            if (f.getSelectedFile() == null) {
+                return;
+            }
+
+            String file = f.getSelectedFile().toString();
+            if (!file.endsWith(".pdf")) {
+                file += ".pdf";
             }
 
             Document doc = new Document(PageSize.A4, 50, 50, 100, 72);
-            PdfWriter.getInstance(doc, new FileOutputStream(fichero));
+            PdfWriter.getInstance(doc, new FileOutputStream(file));
             doc.open();
             Paragraph p = new Paragraph(text);
             p.setAlignment(Element.ALIGN_JUSTIFIED);

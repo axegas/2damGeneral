@@ -3,24 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.projectmusiccrud.demo;
+package com.projectmusiccrud.main;
 
 import com.projectmusiccrud.controller.ControllerRecord;
-import com.projectmusiccrud.dao.DaoRecord;
 import com.projectmusiccrud.view.ViewRecordMain;
 
 /**
  *
  * @author peixe
  */
-public class Demo {
+public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
 
-        ViewRecordMain view = new ViewRecordMain(new ControllerRecord(new DaoRecord()));
+        ViewRecordMain view = new ViewRecordMain(new ControllerRecord());
         view.setVisible(true);
     }
 

@@ -13,12 +13,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public interface IDao {
 
-    public boolean insert(Object object);
-    
+    public boolean insert(Object object);    
     public boolean update(Object object);
-
     public boolean delete(Object object);
-
     public DefaultTableModel select();
 
 }

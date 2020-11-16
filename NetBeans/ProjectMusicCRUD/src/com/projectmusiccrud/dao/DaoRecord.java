@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import com.projectmusiccrud.idao.IDao;
 import javax.swing.table.DefaultTableModel;
 
@@ -47,6 +46,29 @@ public class DaoRecord implements IDao {
             e.printStackTrace(System.out);
         }
 
+        return model;
+    }
+
+    public DefaultTableModel selectByName(String name) {
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR"};
+        model.setColumnIdentifiers(tags);
+        try (Connection conn = Conexion.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(SQL_SELECT + " where name='" + name + "'");
+                ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Object[] rowData = setRow(tags, rs);
+                model.addRow(rowData);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
         return model;
     }
 
@@ -96,19 +118,11 @@ public class DaoRecord implements IDao {
         return delete;
     }
 
-    private Record createRecord(ResultSet rs) throws SQLException {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String composer = rs.getString("composer");
-        int year = rs.getInt("year");
-        Record r = new Record(id, name, composer, year);
-        return r;
-    }
-
     private Object[] setRow(Object[] tags, ResultSet rs) throws SQLException {
         Object[] rowData = new Object[tags.length];
         for (int i = 0; i < tags.length; i++) {
             rowData[i] = rs.getObject(i + 1);
+            
         }
         return rowData;
     }
