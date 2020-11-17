@@ -54,9 +54,8 @@ public class Test {
             //devolvemos algunas compras aleatorias
             for (int i = 0; i < 160; i++) {
                 int n = r.nextInt(compras.size());
-                if (F.devolverProducto(compras.get(n))) {
-                    compras.remove(n);
-                }
+                F.devolverProducto(compras.get(n));
+
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);

@@ -128,7 +128,7 @@ public class WalletDAO {
             stmt.setString(4, w.getFechaNacimiento());
             stmt.setString(5, w.getEmail());
             stmt.setInt(6, w.getPuntos());
-            stmt.setInt(7, w.getSaldo());
+            stmt.setFloat(7, w.getSaldo());
             stmt.setInt(8, w.getIdWallet());
             registros = stmt.executeUpdate();
         } finally {
@@ -175,7 +175,7 @@ public class WalletDAO {
         String fechanacimiento = rs.getString("fechanacimiento");
         String email = rs.getString("email");
         int puntos = rs.getInt("puntos");
-        int saldo = rs.getInt("saldo");
+        float saldo = rs.getFloat("saldo");
         Wallet wallet = new Wallet(idwallet, nombre, apellidos, dni, fechanacimiento, email, puntos, saldo);
         return wallet;
     }

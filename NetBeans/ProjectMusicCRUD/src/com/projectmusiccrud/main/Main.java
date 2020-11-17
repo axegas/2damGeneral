@@ -5,7 +5,6 @@
  */
 package com.projectmusiccrud.main;
 
-import com.projectmusiccrud.controller.ControllerRecord;
 import com.projectmusiccrud.view.ViewRecordMain;
 
 /**
@@ -19,7 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        ViewRecordMain view = new ViewRecordMain(new ControllerRecord());
+        ViewRecordMain view = new ViewRecordMain();
         view.setVisible(true);
     }
 

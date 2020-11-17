@@ -7,6 +7,7 @@ package com.supercomprin.test;
 
 import com.conectar.Conexion;
 import com.supercomprin.dao.CompraDAO;
+import com.supercomprin.dao.DevolucionDAO;
 import com.supercomprin.dao.ProductoDAO;
 import com.supercomprin.dao.WalletDAO;
 import com.supercomprin.model.Compra;
@@ -60,11 +61,6 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
 
         Connection conexion = null;
         try {
-            //me aseguro que puedo comprar con puntos (el producto debe valer como mínimo 5€)
-            if (p.getPrecio() < 5) {
-                System.out.println("No puede comprar el producto.");
-                return;
-            }
 
             conexion = Conexion.getConnection();
             if (conexion.getAutoCommit()) {
@@ -74,7 +70,7 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             CompraDAO daoc = new CompraDAO(conexion);
             WalletDAO daow = new WalletDAO(conexion);
 
-            w.setPuntos(w.getPuntos() - p.getPrecio());
+            w.setPuntos(w.getPuntos() - (int) p.getPrecio());
             daow.update(w);
 
             Date now = new Date();//fecha de la compra: el momento actual
@@ -82,7 +78,13 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             daoc.insert(c);
 
             conexion.commit();
-            System.out.println("Gracias por su compra.");
+
+            if (p.getPrecio() < 5) {
+                System.out.println("Rollback: No puede comprar el producto.");
+                conexion.rollback();
+            } else {
+                System.out.println("Gracias por su compra.");
+            }
 
         } catch (SQLException e) {
             //e.printStackTrace(System.out);
@@ -95,9 +97,8 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
         }
     }
 
-    public static boolean devolverProducto(Compra c) {
+    public static void devolverProducto(Compra c) {
         Connection conexion = null;
-        boolean res;
         try {
             conexion = Conexion.getConnection();
             if (conexion.getAutoCommit()) {
@@ -111,44 +112,77 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             Wallet w = daow.selectWallet(c.getWallet().getIdWallet());
             Producto p = daop.selectProducto(c.getProducto().getIdproducto());
 
-            //comprobamos que, al hacer la devolución, el cliente no se va a quedar con menos de 5 puntos
-            if (w.getPuntos() - p.getPuntos() < 5) {
-                System.out.println("No puede devolver el producto.");
-                conexion.close();
-                return false;
-            }
-
             w.setPuntos(w.getPuntos() - p.getPuntos());
             w.setSaldo(w.getSaldo() + p.getPrecio());
             daow.update(w);
 
             daoc.delete(c);
             conexion.commit();
-            System.out.println("Devolución realizada con éxito.");
-            res = true;
+
+            if (w.getPuntos() - p.getPuntos() < 5) {
+                System.out.println("Rollback: ha habido algún error al hacer la devolución.");
+                conexion.rollback();
+            } else {
+                System.out.println("Devolución realizada con éxito.");
+            }
         } catch (SQLException e) {
             //e.printStackTrace(System.out);
             System.out.println("Rollback: ha habido algún error al hacer la devolución.");
-            res = false;
             try {
                 conexion.rollback();
             } catch (SQLException ex1) {
                 ex1.printStackTrace(System.out);
             }
         }
-        return res;
+
+    }
+
+    public static void devolverProductoDevolucion(Compra c) {
+        Connection conexion = null;
+        try {
+            conexion = Conexion.getConnection();
+            if (conexion.getAutoCommit()) {
+                conexion.setAutoCommit(false);
+            }
+
+            CompraDAO daoc = new CompraDAO(conexion);
+            WalletDAO daow = new WalletDAO(conexion);
+            ProductoDAO daop = new ProductoDAO(conexion);
+            DevolucionDAO daod = new DevolucionDAO(conexion);
+
+            Wallet w = daow.selectWallet(c.getWallet().getIdWallet());
+            Producto p = daop.selectProducto(c.getProducto().getIdproducto());
+
+            w.setPuntos(w.getPuntos() - p.getPuntos());
+            w.setSaldo(w.getSaldo() + p.getPrecio());
+            daow.update(w);
+
+            //daoc.delete(c);
+            
+            
+            conexion.commit();
+
+            if (w.getPuntos() - p.getPuntos() < 5) {
+                System.out.println("Rollback: ha habido algún error al hacer la devolución.");
+                conexion.rollback();
+            } else {
+                System.out.println("Devolución realizada con éxito.");
+            }
+        } catch (SQLException e) {
+            //e.printStackTrace(System.out);
+            System.out.println("Rollback: ha habido algún error al hacer la devolución.");
+            try {
+                conexion.rollback();
+            } catch (SQLException ex1) {
+                ex1.printStackTrace(System.out);
+            }
+        }
+
     }
 
     public static void recargarWallet(Wallet w, int recarga) {
         Connection conexion = null;
         try {
-            //con este bloque de codigo, obtengo el día actual, y valido que sea correcto para poder hacer la recarga.
-            
-            int dia = Integer.parseInt((new SimpleDateFormat("dd")).format(new Date()));
-            if (dia > 5) {
-                System.out.println("No puede hacer la recarga.");
-                return;
-            }
 
             conexion = Conexion.getConnection();
             if (conexion.getAutoCommit()) {
@@ -160,7 +194,13 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             daow.update(w);
 
             conexion.commit();
-            System.out.println("Recarga realizada con éxito.");
+
+            int dia = Integer.parseInt((new SimpleDateFormat("dd")).format(new Date()));
+            if (dia > 5) {
+                System.out.println("Rollback: No puede hacer la recarga.");
+            } else {
+                System.out.println("Recarga realizada con éxito.");
+            }
 
         } catch (SQLException e) {
             //e.printStackTrace(System.out);

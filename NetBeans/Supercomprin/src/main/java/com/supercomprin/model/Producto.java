@@ -13,12 +13,12 @@ public class Producto {
     private int idproducto;
     private String nombre;
     private int puntos;
-    private int precio;
+    private float precio;
 
     public Producto() {
     }
 
-    public Producto(int idproducto, String nombre, int puntos, int precio) {
+    public Producto(int idproducto, String nombre, int puntos, float precio) {
         this.idproducto = idproducto;
         this.nombre = nombre;
         this.puntos = puntos;
@@ -55,11 +55,11 @@ public class Producto {
         this.puntos = puntos;
     }
 
-    public int getPrecio() {
+    public float getPrecio() {
         return precio;
     }
 
-    public void setPrecio(int precio) {
+    public void setPrecio(float precio) {
         this.precio = precio;
     }
 

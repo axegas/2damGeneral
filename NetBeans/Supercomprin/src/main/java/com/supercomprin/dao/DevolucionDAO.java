@@ -6,8 +6,12 @@
 package com.supercomprin.dao;
 
 import com.conectar.Conexion;
+import com.supercomprin.model.Compra;
+import com.supercomprin.model.Devolucion;
 import com.supercomprin.model.Producto;
+import com.supercomprin.model.Wallet;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,25 +21,25 @@ import java.util.ArrayList;
  *
  * @author axegas
  */
-public class ProductoDAO {
+public class DevolucionDAO {
 
-    private final static String SQL_SELECT = "select * from producto";
-    private final static String SQL_INSERT = "insert into producto(nombre, puntos, precio)values(?,?,?)";
-    private final static String SQL_UPDATE = "update producto set nombre=?, puntos=?, precio=? where idproducto=?";
-    private final static String SQL_DELETE = "delete from producto where idproducto=?";
+    private final static String SQL_SELECT = "select * from devolucion";
+    private final static String SQL_INSERT = "insert into devolucion(idproducto, idwallet, fecha)values(?,?,?)";
+    private final static String SQL_UPDATE = "update devolucion set idproducto=?,idwallet=?,fecha=? where iddevolucion=?";
+    private final static String SQL_DELETE = "delete from devolucion where iddevolucion=?";
 
     private Connection conexionTransaccional;
 
-    public ProductoDAO() {
+    public DevolucionDAO() {
     }
 
-    public ProductoDAO(Connection conexionTransaccional) {
+    public DevolucionDAO(Connection conexionTransaccional) {
         this.conexionTransaccional = conexionTransaccional;
     }
 
-    public ArrayList<Producto> select() throws SQLException {
-        ArrayList<Producto> productos = new ArrayList<>();
-        Producto p;
+    public ArrayList<Devolucion> select() throws SQLException {
+        ArrayList<Devolucion> devoluciones = new ArrayList<>();
+        Devolucion d;
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -44,8 +48,8 @@ public class ProductoDAO {
             stmt = conn.prepareStatement(SQL_SELECT);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                p = crearProducto(rs);
-                productos.add(p);
+                d = crearDevolucion(rs);
+                devoluciones.add(d);
             }
         } finally {
             try {
@@ -59,21 +63,21 @@ public class ProductoDAO {
             }
         }
 
-        return productos;
+        return devoluciones;
     }
 
-    //esta función recibe el id de un producto y devuelve el producto correspondiente, o null si no existe
-    public Producto selectProducto(int idproducto) throws SQLException {
-        Producto p = null;
+    //esta función recibe el id de una compra y devuelve la compra correspondiente, o null si no existe
+    public Devolucion selectCompra(int iddevolucion) throws SQLException {
+        Devolucion d = null;
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection();
-            stmt = conn.prepareStatement(SQL_SELECT + " where idproducto=" + idproducto);
+            stmt = conn.prepareStatement(SQL_SELECT + " where iddevolucion = " + iddevolucion);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                p = crearProducto(rs);
+                d = crearDevolucion(rs);
             }
         } finally {
             try {
@@ -86,19 +90,20 @@ public class ProductoDAO {
                 e.printStackTrace(System.out);
             }
         }
-        return p;
+
+        return d;
     }
 
-    public int insert(Producto p) throws SQLException {
+    public int insert(Devolucion d) throws SQLException {
         int registros = 0;
         Connection conn = null;
         PreparedStatement stmt = null;
         try {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
-            stmt.setString(1, p.getNombre());
-            stmt.setInt(2, p.getPuntos());
-            stmt.setFloat(3, p.getPrecio());
+            stmt.setInt(1, d.getProducto().getIdproducto());
+            stmt.setInt(2, d.getWallet().getIdWallet());
+            stmt.setDate(3, d.getFecha());
             registros = stmt.executeUpdate();
         } finally {
             try {
@@ -113,17 +118,17 @@ public class ProductoDAO {
         return registros;
     }
 
-    public int update(Producto p) throws SQLException {
+    public int update(Devolucion c) throws SQLException {
         int registros = 0;
         Connection conn = null;
         PreparedStatement stmt = null;
         try {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_UPDATE);
-            stmt.setString(1, p.getNombre());
-            stmt.setInt(2, p.getPuntos());
-            stmt.setFloat(3, p.getPrecio());
-            stmt.setInt(4, p.getIdproducto());
+            stmt.setInt(1, c.getProducto().getIdproducto());
+            stmt.setInt(2, c.getWallet().getIdWallet());
+            stmt.setDate(3, c.getFecha());
+            stmt.setInt(4, c.getiddevolucion());
             registros = stmt.executeUpdate();
         } finally {
             try {
@@ -138,14 +143,14 @@ public class ProductoDAO {
         return registros;
     }
 
-    public int delete(Producto p) throws SQLException {
+    public int delete(Devolucion d) throws SQLException {
         int registros = 0;
         Connection conn = null;
         PreparedStatement stmt = null;
         try {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_DELETE);
-            stmt.setInt(1, p.getIdproducto());
+            stmt.setInt(1, d.getiddevolucion());
             registros = stmt.executeUpdate();
         } finally {
             try {
@@ -161,13 +166,19 @@ public class ProductoDAO {
     }
 
     //este método me sirve para leer, a partir del ResultSet, el objeto actual, para que esté un poco más claro
-    private Producto crearProducto(ResultSet rs) throws SQLException {
+    private Devolucion crearDevolucion(ResultSet rs) throws SQLException {
         int idproducto = rs.getInt("idproducto");
-        String nombre = rs.getString("nombre");
-        int puntos = rs.getInt("puntos");
-        int precio = rs.getInt("precio");
-        Producto w = new Producto(idproducto, nombre, puntos, precio);
-        return w;
+        int idcompra = rs.getInt("iddevolucion");
+        int idwallet = rs.getInt("idwallet");
+        Date fecha = rs.getDate("fecha");
+        
+        //a partir del idproducto y idwallet leidos de la tabla devolución, busco los correspondientes datos necesarios para construir el objeto
+        ProductoDAO daop = new ProductoDAO();
+        WalletDAO daow = new WalletDAO();
+        Producto producto = daop.selectProducto(idproducto);
+        Wallet wallet = daow.selectWallet(idwallet);
+        Devolucion devolucion = new Devolucion(idcompra, producto, wallet, fecha);
+        return devolucion;
     }
 
 }

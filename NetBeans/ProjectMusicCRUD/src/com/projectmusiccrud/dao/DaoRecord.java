@@ -11,21 +11,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import com.projectmusiccrud.idao.IDao;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author peixe
  */
-public class DaoRecord implements IDao {
+public class DaoRecord  {
 
     private final static String SQL_SELECT = "select * from record";
     private final static String SQL_INSERT = "insert into record (name,composer,year)values(?,?,?)";
     private final static String SQL_UPDATE = "update record set name=?,composer=?,year=? where id=?";
     private final static String SQL_DELETE = "delete from record where id=?";
 
-    @Override
+
     public DefaultTableModel select() {
         DefaultTableModel model = new DefaultTableModel() {
             @Override
@@ -72,7 +71,7 @@ public class DaoRecord implements IDao {
         return model;
     }
 
-    @Override
+  
     public boolean insert(Object o) {
         Record r = (Record) o;
         boolean insert = false;
@@ -88,7 +87,7 @@ public class DaoRecord implements IDao {
         return insert;
     }
 
-    @Override
+
     public boolean update(Object o) {
         Record r = (Record) o;
         boolean update = false;
@@ -105,7 +104,7 @@ public class DaoRecord implements IDao {
         return update;
     }
 
-    @Override
+ 
     public boolean delete(Object o) {
         Record r = (Record) o;
         boolean delete = false;

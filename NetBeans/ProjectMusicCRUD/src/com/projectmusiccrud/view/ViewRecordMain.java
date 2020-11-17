@@ -10,6 +10,7 @@ import com.projectmusiccrud.model.Record;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -42,8 +43,8 @@ public class ViewRecordMain extends JFrame {
     private JLabel lblSearch;
     private final ControllerRecord controller;
 
-    public ViewRecordMain(ControllerRecord controller) {
-        this.controller = controller;
+    public ViewRecordMain() {
+        this.controller = new ControllerRecord();
         initComponents();
         configMenuBar();
 
@@ -64,6 +65,7 @@ public class ViewRecordMain extends JFrame {
         lblSearch = new JLabel("Search");
         txtSearch = new JTextField(20);
 
+        
         txtSearch.addActionListener(t -> search());
         btnUpdate.addActionListener(b -> update());
         btnDelete.addActionListener(b -> delete());
@@ -214,5 +216,6 @@ public class ViewRecordMain extends JFrame {
         }
         controller.createPDF(records);
     }
+
 
 }

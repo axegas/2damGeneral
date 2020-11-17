@@ -18,12 +18,12 @@ public class Wallet {
     private String fechaNacimiento;
     private String email;
     private int puntos;
-    private int saldo;
+    private float saldo;
 
     public Wallet() {
     }
 
-    public Wallet(int idWallet, String nombre, String apellidos, String dni, String fechaNacimiento, String email, int puntos, int saldo) {
+    public Wallet(int idWallet, String nombre, String apellidos, String dni, String fechaNacimiento, String email, int puntos, float saldo) {
         this.idWallet = idWallet;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -100,11 +100,11 @@ public class Wallet {
         this.puntos = puntos;
     }
 
-    public int getSaldo() {
+    public float getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(int saldo) {
+    public void setSaldo(float saldo) {
         this.saldo = saldo;
     }
 
