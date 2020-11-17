@@ -14,23 +14,20 @@ import java.sql.Date;
 public class Devolucion {
 
     private int iddevolucion;
-    private Producto producto;
-    private Wallet wallet;
+    private Compra compra;
     private Date fecha;
 
     public Devolucion() {
     }
 
-    public Devolucion(int iddevolucion, Producto producto, Wallet wallet, Date fecha) {
+    public Devolucion(int iddevolucion, Compra compra, Date fecha) {
         this.iddevolucion = iddevolucion;
-        this.producto = producto;
-        this.wallet = wallet;
+        this.compra = compra;
         this.fecha = fecha;
     }
 
-    public Devolucion(Producto producto, Wallet wallet, Date fecha) {
-        this.producto = producto;
-        this.wallet = wallet;
+    public Devolucion(Compra compra, Date fecha) {
+        this.compra = compra;
         this.fecha = fecha;
     }
 
@@ -42,20 +39,12 @@ public class Devolucion {
         this.iddevolucion = iddevolucion;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public Compra getCompra() {
+        return compra;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    public Wallet getWallet() {
-        return wallet;
-    }
-
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
+    public void setCompra(Compra compra) {
+        this.compra = compra;
     }
 
     public Date getFecha() {
@@ -68,6 +57,7 @@ public class Devolucion {
 
     @Override
     public String toString() {
-        return "Compra{" + "iddevolucion=" + iddevolucion + ", producto=" + producto + ", wallet=" + wallet + ", fecha=" + fecha + '}';
+        return "Devolucion{" + "iddevolucion=" + iddevolucion + ", compra=" + compra + ", fecha=" + fecha + '}';
     }
+
 }

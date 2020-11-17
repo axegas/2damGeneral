@@ -108,15 +108,19 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             CompraDAO daoc = new CompraDAO(conexion);
             WalletDAO daow = new WalletDAO(conexion);
             ProductoDAO daop = new ProductoDAO(conexion);
+            DevolucionDAO daod = new DevolucionDAO(conexion);
 
             Wallet w = daow.selectWallet(c.getWallet().getIdWallet());
             Producto p = daop.selectProducto(c.getProducto().getIdproducto());
-
+            
             w.setPuntos(w.getPuntos() - p.getPuntos());
             w.setSaldo(w.getSaldo() + p.getPrecio());
             daow.update(w);
+            
+            //insertar la devolución
+            
 
-            daoc.delete(c);
+            //daoc.delete(c);
             conexion.commit();
 
             if (w.getPuntos() - p.getPuntos() < 5) {

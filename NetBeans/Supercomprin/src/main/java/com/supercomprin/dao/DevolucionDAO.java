@@ -24,8 +24,8 @@ import java.util.ArrayList;
 public class DevolucionDAO {
 
     private final static String SQL_SELECT = "select * from devolucion";
-    private final static String SQL_INSERT = "insert into devolucion(idproducto, idwallet, fecha)values(?,?,?)";
-    private final static String SQL_UPDATE = "update devolucion set idproducto=?,idwallet=?,fecha=? where iddevolucion=?";
+    private final static String SQL_INSERT = "insert into devolucion(idcompra, fecha)values(?,?)";
+    private final static String SQL_UPDATE = "update devolucion set idcompra=?,fecha=? where iddevolucion=?";
     private final static String SQL_DELETE = "delete from devolucion where iddevolucion=?";
 
     private Connection conexionTransaccional;
@@ -101,9 +101,8 @@ public class DevolucionDAO {
         try {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
-            stmt.setInt(1, d.getProducto().getIdproducto());
-            stmt.setInt(2, d.getWallet().getIdWallet());
-            stmt.setDate(3, d.getFecha());
+            stmt.setInt(1, d.getCompra().getIdCompra());
+            stmt.setDate(2, d.getFecha());
             registros = stmt.executeUpdate();
         } finally {
             try {
@@ -125,10 +124,9 @@ public class DevolucionDAO {
         try {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_UPDATE);
-            stmt.setInt(1, c.getProducto().getIdproducto());
-            stmt.setInt(2, c.getWallet().getIdWallet());
-            stmt.setDate(3, c.getFecha());
-            stmt.setInt(4, c.getiddevolucion());
+            stmt.setInt(1, c.getCompra().getIdCompra());
+            stmt.setDate(2, c.getFecha());
+            stmt.setInt(3, c.getiddevolucion());
             registros = stmt.executeUpdate();
         } finally {
             try {
@@ -167,17 +165,16 @@ public class DevolucionDAO {
 
     //este método me sirve para leer, a partir del ResultSet, el objeto actual, para que esté un poco más claro
     private Devolucion crearDevolucion(ResultSet rs) throws SQLException {
-        int idproducto = rs.getInt("idproducto");
-        int idcompra = rs.getInt("iddevolucion");
-        int idwallet = rs.getInt("idwallet");
+
+        int iddevolucion = rs.getInt("iddevolucion");
+        int idcompra = rs.getInt("idcompra");
         Date fecha = rs.getDate("fecha");
         
         //a partir del idproducto y idwallet leidos de la tabla devolución, busco los correspondientes datos necesarios para construir el objeto
-        ProductoDAO daop = new ProductoDAO();
-        WalletDAO daow = new WalletDAO();
-        Producto producto = daop.selectProducto(idproducto);
-        Wallet wallet = daow.selectWallet(idwallet);
-        Devolucion devolucion = new Devolucion(idcompra, producto, wallet, fecha);
+        CompraDAO daoc = new CompraDAO();
+        Compra c = daoc.selectCompra(idcompra);
+
+        Devolucion devolucion = new Devolucion(iddevolucion,c, fecha);
         return devolucion;
     }
 

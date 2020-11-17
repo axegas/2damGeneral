@@ -23,7 +23,7 @@ import java.util.Date;
 public class main {
 
     public static void main(String args[]) {
-
+        /*
         Connection conexion = null;
         try {
             conexion = Conexion.getConnection();
@@ -71,6 +71,10 @@ public class main {
                 ex1.printStackTrace(System.out);
             }
         }
-
+         */
+        Date now = new Date();
+        now.getTime();
+        java.sql.Date d = new java.sql.Date(now.getTime());
+        System.out.println(d.toString());
     }
 }
