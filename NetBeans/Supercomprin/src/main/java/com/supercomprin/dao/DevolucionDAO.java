@@ -170,7 +170,7 @@ public class DevolucionDAO {
         int idcompra = rs.getInt("idcompra");
         Date fecha = rs.getDate("fecha");
         
-        //a partir del idproducto y idwallet leidos de la tabla devolución, busco los correspondientes datos necesarios para construir el objeto
+        //a partir del idcompra leido de la tabla devolución, busco la compra para construir el objeto
         CompraDAO daoc = new CompraDAO();
         Compra c = daoc.selectCompra(idcompra);
 

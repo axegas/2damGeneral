@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `supercomprin`.`compra` (
   `idcompra` INT NOT NULL AUTO_INCREMENT,
   `idproducto` INT NOT NULL,
   `idwallet` INT NOT NULL,
-  `fecha` VARCHAR(45) NOT NULL,
+  `fecha` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`idcompra`),
   INDEX `fk_COMPRA_WALLET` (`idwallet` ASC),
   INDEX `fk_COMPRA_PRODUCTO` (`idproducto` ASC),

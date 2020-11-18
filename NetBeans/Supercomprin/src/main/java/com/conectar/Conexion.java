@@ -41,20 +41,21 @@ public class Conexion {
 
     /*            
             //DATOS DE PRUEBA: 
-            
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Axel","Perez","54658745y","28-06-1988","axel@sdfh");
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Luis","Garcia","78451236u","27-11-1995","luisga@sdg");
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Aisha","Flordelis","78451202p","24-12-1990","aisha@sdfs");
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Ana","Gonzalez","78451245l","17-05-2001","ana@hfh");
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Luis","Perez","54658745y","28-06-1988","axel@sdfh");
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Amparo","Garcia","78451236u","27-11-1995","luisga@sdg");
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Lucia","Flordelis","78451202p","24-12-1990","aisha@sdfs");
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Josefa","Gonzalez","78451245l","17-05-2001","ana@hfh");   
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Pepito","Perez","54658745y","28-06-1988","axel@sdfh");
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Kevin","Garcia","78451236u","27-11-1995","luisga@sdg");
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Hector","Flordelis","78451202p","24-12-1990","aisha@sdfs");
-            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email) VALUES ("Jose","Gonzalez","78451245l","17-05-2001","ana@hfh");  
-            
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Axel","Perez","54658745y","1988-06-28","axel@sdfh",default,default,DATEDIFF( current_date(),"1988-06-28")/365);
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Luis","Garcia","78451236u","1995-11-27","luisga@sdg",default,default,DATEDIFF( current_date(),"1995-11-27")/365);
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Aisha","Flordelis","78451202p","1990-12-24","aisha@sdfs",default,default,DATEDIFF( current_date(),"1990-12-24")/365);
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Ana","Gonzalez","78451245l","2001-05-17","ana@hfh",default,default,DATEDIFF( current_date(),"2001-05-17")/365);
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Luis","Perez","54658745y","1988-06-28","axel@sdfh",default,default,DATEDIFF( current_date(),"1988-06-28")/365);
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Amparo","Garcia","78451236u","1995-11-27","luisga@sdg",default,default,DATEDIFF( current_date(),"1995-11-27")/365);
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Lucia","Flordelis","78451202p","1990-12-24","aisha@sdfs",default,default,DATEDIFF( current_date(),"1990-12-24")/365);
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Josefa","Gonzalez","78451245l","2001-05-17","ana@hfh",default,default,DATEDIFF( current_date(),"2001-05-17")/365);   
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Pepito","Perez","54658745y","1988-06-28","axel@sdfh",default,default,DATEDIFF( current_date(),"1988-06-28")/365);
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Kevin","Garcia","78451236u","1995-11-27","luisga@sdg",default,default,DATEDIFF( current_date(),"1995-11-27")/365);
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Hector","Flordelis","78451202p","1990-12-24","aisha@sdfs",default,default,DATEDIFF( current_date(),"1990-12-24")/365);
+            INSERT INTO wallet (nombre,apellidos,dni,fechanacimiento,email,puntos,saldo,edad) VALUES ("Jose","Gonzalez","78451245l","2001-05-17","ana@hfh",default,default,DATEDIFF( current_date(),"2001-05-17")/365); 
+    
+    
+    
             INSERT INTO producto (nombre, puntos, precio) VALUES ("Jarrón",1,5);
             INSERT INTO producto (nombre, puntos, precio) VALUES ("Televisor",10,100);
             INSERT INTO producto (nombre, puntos, precio) VALUES ("Chaqueta",5,50);

@@ -10,6 +10,7 @@ import com.supercomprin.model.Compra;
 import com.supercomprin.model.Producto;
 import com.supercomprin.model.Wallet;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -101,7 +102,7 @@ public class CompraDAO {
             stmt = conn.prepareStatement(SQL_INSERT);
             stmt.setInt(1, c.getProducto().getIdproducto());
             stmt.setInt(2, c.getWallet().getIdWallet());
-            stmt.setString(3, c.getFecha());
+            stmt.setDate(3, c.getFecha());
             registros = stmt.executeUpdate();
         } finally {
             try {
@@ -125,7 +126,7 @@ public class CompraDAO {
             stmt = conn.prepareStatement(SQL_UPDATE);
             stmt.setInt(1, c.getProducto().getIdproducto());
             stmt.setInt(2, c.getWallet().getIdWallet());
-            stmt.setString(3, c.getFecha());
+            stmt.setDate(3, c.getFecha());
             stmt.setInt(4, c.getIdCompra());
             registros = stmt.executeUpdate();
         } finally {
@@ -168,7 +169,7 @@ public class CompraDAO {
         int idproducto = rs.getInt("idproducto");
         int idcompra = rs.getInt("idcompra");
         int idwallet = rs.getInt("idwallet");
-        String fecha = rs.getString("fecha");
+        Date fecha = rs.getDate("fecha");
         
         //a partir del idproducto y idwallet leidos de la tabla compra, busco los correspondientes datos necesarios para construir el objeto
         ProductoDAO daop = new ProductoDAO();

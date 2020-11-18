@@ -8,6 +8,7 @@ package com.supercomprin.dao;
 import com.conectar.Conexion;
 import com.supercomprin.model.Wallet;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 public class WalletDAO {
 
     private final static String SQL_SELECT = "select * from wallet";
-    private final static String SQL_INSERT = "insert into wallet(nombre, apellidos, dni, fechanacimiento, email)values(?,?,?,?,?)";
+    //en la tabla wallet he puesto una columna 'edad' que se calcule de forma automática a partir de la fechanacimiento, y le he puesto un "check edad>=18"
+    private final static String SQL_INSERT = "insert into wallet(nombre, apellidos, dni, fechanacimiento, email,puntos,saldo,edad)values(?,?,?,?,?,default,default,DATEDIFF( current_date(),?)/365)";
     private final static String SQL_UPDATE = "update wallet set nombre=?,apellidos=?,dni=?,fechanacimiento=?,email=?, puntos=?, saldo=? where idwallet=?";
     private final static String SQL_DELETE = "delete from wallet where idwallet=?";
 
@@ -99,8 +101,9 @@ public class WalletDAO {
             stmt.setString(1, w.getNombre());
             stmt.setString(2, w.getApellidos());
             stmt.setString(3, w.getDni());
-            stmt.setString(4, w.getFechaNacimiento());
+            stmt.setDate(4, w.getFechaNacimiento());
             stmt.setString(5, w.getEmail());
+            stmt.setDate(6, w.getFechaNacimiento());
             registros = stmt.executeUpdate();
         } finally {
             try {
@@ -125,7 +128,7 @@ public class WalletDAO {
             stmt.setString(1, w.getNombre());
             stmt.setString(2, w.getApellidos());
             stmt.setString(3, w.getDni());
-            stmt.setString(4, w.getFechaNacimiento());
+            stmt.setDate(4, w.getFechaNacimiento());
             stmt.setString(5, w.getEmail());
             stmt.setInt(6, w.getPuntos());
             stmt.setFloat(7, w.getSaldo());
@@ -172,7 +175,7 @@ public class WalletDAO {
         String nombre = rs.getString("nombre");
         String apellidos = rs.getString("apellidos");
         String dni = rs.getString("dni");
-        String fechanacimiento = rs.getString("fechanacimiento");
+        Date fechanacimiento = rs.getDate("fechanacimiento");
         String email = rs.getString("email");
         int puntos = rs.getInt("puntos");
         float saldo = rs.getFloat("saldo");

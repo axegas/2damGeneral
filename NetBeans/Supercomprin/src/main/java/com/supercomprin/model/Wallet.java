@@ -5,6 +5,8 @@
  */
 package com.supercomprin.model;
 
+import java.sql.Date;
+
 /**
  *
  * @author axegas
@@ -15,7 +17,7 @@ public class Wallet {
     private String nombre;
     private String apellidos;
     private String dni;
-    private String fechaNacimiento;
+    private Date fechaNacimiento;
     private String email;
     private int puntos;
     private float saldo;
@@ -23,7 +25,7 @@ public class Wallet {
     public Wallet() {
     }
 
-    public Wallet(int idWallet, String nombre, String apellidos, String dni, String fechaNacimiento, String email, int puntos, float saldo) {
+    public Wallet(int idWallet, String nombre, String apellidos, String dni, Date fechaNacimiento, String email, int puntos, float saldo) {
         this.idWallet = idWallet;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -34,7 +36,7 @@ public class Wallet {
         this.saldo = saldo;
     }
 
-    public Wallet(String nombre, String apellidos, String dni, String fechaNacimiento, String email) {
+    public Wallet(String nombre, String apellidos, String dni, Date fechaNacimiento, String email) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.dni = dni;
@@ -76,11 +78,11 @@ public class Wallet {
         this.dni = dni;
     }
 
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
