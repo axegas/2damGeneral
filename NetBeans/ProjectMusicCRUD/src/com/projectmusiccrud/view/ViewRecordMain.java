@@ -10,7 +10,6 @@ import com.projectmusiccrud.model.Record;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -26,7 +25,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 /**
@@ -47,9 +45,7 @@ public class ViewRecordMain extends JFrame {
         this.controller = new ControllerRecord();
         initComponents();
         configMenuBar();
-
         reload();
-        setColumnSize();
     }
 
     private void initComponents() {
@@ -114,14 +110,6 @@ public class ViewRecordMain extends JFrame {
 
     private void reload() {
         table.setModel(controller.selectModel());
-    }
-
-    private void setColumnSize() {
-        TableColumnModel columnModel = table.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(10);
-        columnModel.getColumn(1).setPreferredWidth(170);
-        columnModel.getColumn(2).setPreferredWidth(150);
-        columnModel.getColumn(3).setPreferredWidth(30);
     }
 
     private Record getSelectedValue(int n) {
@@ -199,11 +187,9 @@ public class ViewRecordMain extends JFrame {
                 JOptionPane.showMessageDialog(null, "No records found", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 table.setModel(model);
-                setColumnSize();
             }
         }else{
             reload();
-            setColumnSize();
         }
         txtSearch.setText("");
     }

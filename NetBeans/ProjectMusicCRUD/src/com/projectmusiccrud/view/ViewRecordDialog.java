@@ -37,7 +37,7 @@ public class ViewRecordDialog extends JDialog {
 
     private void initComponents() {
 
-        setLayout(new GridLayout(4, 2, 10, 10));
+        setLayout(new GridLayout(5, 2, 10, 10));
         setBounds(400, 400, 200, 200);
 
         txtName = new JTextField(20);
@@ -54,6 +54,7 @@ public class ViewRecordDialog extends JDialog {
 
         btnAccept = new JButton("Accept");
         btnCancel = new JButton("Cancel");
+
 
         add(lblName);
         add(txtName);

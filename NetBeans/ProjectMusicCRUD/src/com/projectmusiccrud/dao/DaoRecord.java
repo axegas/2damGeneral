@@ -17,13 +17,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author peixe
  */
-public class DaoRecord  {
+public class DaoRecord {
 
     private final static String SQL_SELECT = "select * from record";
     private final static String SQL_INSERT = "insert into record (name,composer,year)values(?,?,?)";
-    private final static String SQL_UPDATE = "update record set name=?,composer=?,year=? where id=?";
+    private final static String SQL_UPDATE = "update record set name=?,composer=?,year=?, where id=?";
     private final static String SQL_DELETE = "delete from record where id=?";
-
 
     public DefaultTableModel select() {
         DefaultTableModel model = new DefaultTableModel() {
@@ -55,7 +54,6 @@ public class DaoRecord  {
                 return false;
             }
         };
-
         Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR"};
         model.setColumnIdentifiers(tags);
         try (Connection conn = Conexion.getConnection();
@@ -71,7 +69,6 @@ public class DaoRecord  {
         return model;
     }
 
-  
     public boolean insert(Object o) {
         Record r = (Record) o;
         boolean insert = false;
@@ -86,7 +83,6 @@ public class DaoRecord  {
         }
         return insert;
     }
-
 
     public boolean update(Object o) {
         Record r = (Record) o;
@@ -104,7 +100,6 @@ public class DaoRecord  {
         return update;
     }
 
- 
     public boolean delete(Object o) {
         Record r = (Record) o;
         boolean delete = false;
@@ -121,7 +116,6 @@ public class DaoRecord  {
         Object[] rowData = new Object[tags.length];
         for (int i = 0; i < tags.length; i++) {
             rowData[i] = rs.getObject(i + 1);
-            
         }
         return rowData;
     }
