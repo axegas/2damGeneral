@@ -6,6 +6,7 @@
 package com.projectmusiccrud.main;
 
 import com.projectmusiccrud.view.ViewRecordMain;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,8 +18,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
         ViewRecordMain view = new ViewRecordMain();
+        JOptionPane.showMessageDialog(null, "Welcome!", "Welcome", JOptionPane.INFORMATION_MESSAGE);
         view.setVisible(true);
     }
 

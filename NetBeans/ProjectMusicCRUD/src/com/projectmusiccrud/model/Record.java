@@ -14,22 +14,33 @@ public class Record {
     private String name;
     private String composer;
     private int year;
+    private boolean listened;
 
     public Record() {
 
     }
 
-    public Record(int id, String name, String composer, int year) {
+    public Record(int id, String name, String composer, int year, boolean listened) {
         this.id = id;
         this.name = name;
         this.composer = composer;
         this.year = year;
+        this.listened = listened;
     }
 
-    public Record(String name, String composer, int year) {
+    public Record(String name, String composer, int year, boolean listened) {
         this.name = name;
         this.composer = composer;
         this.year = year;
+        this.listened = listened;
+    }
+
+    public boolean isListened() {
+        return listened;
+    }
+
+    public void setListened(boolean listened) {
+        this.listened = listened;
     }
     
     public int getId() {

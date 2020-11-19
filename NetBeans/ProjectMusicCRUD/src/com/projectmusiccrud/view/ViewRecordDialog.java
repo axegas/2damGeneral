@@ -8,6 +8,7 @@ package com.projectmusiccrud.view;
 import com.projectmusiccrud.model.Record;
 import java.awt.GridLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,6 +23,7 @@ public class ViewRecordDialog extends JDialog {
     private JTextField txtName, txtComposer, txtYear;
     private JLabel lblName, lblComposer, lblYear;
     private JButton btnAccept, btnCancel;
+    private JCheckBox cbListened;
 
     private Record record;
 
@@ -55,6 +57,9 @@ public class ViewRecordDialog extends JDialog {
         btnAccept = new JButton("Accept");
         btnCancel = new JButton("Cancel");
 
+        cbListened = new JCheckBox("Listened?");
+        
+        cbListened.setSelected(record.isListened());
 
         add(lblName);
         add(txtName);
@@ -62,6 +67,8 @@ public class ViewRecordDialog extends JDialog {
         add(txtComposer);
         add(lblYear);
         add(txtYear);
+        add(cbListened);
+        add(new JLabel());
         add(btnAccept);
         add(btnCancel);
 
@@ -73,9 +80,11 @@ public class ViewRecordDialog extends JDialog {
         String name = txtName.getText();
         String composer = txtComposer.getText();
         int year = Integer.parseInt(txtYear.getText());
+        boolean listened = cbListened.isSelected();
         record.setName(name);
         record.setComposer(composer);
         record.setYear(year);
+        record.setListened(listened);
         setVisible(false);
     }
 

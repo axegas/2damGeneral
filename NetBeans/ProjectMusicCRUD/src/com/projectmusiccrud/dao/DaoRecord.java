@@ -20,18 +20,24 @@ import javax.swing.table.DefaultTableModel;
 public class DaoRecord {
 
     private final static String SQL_SELECT = "select * from record";
-    private final static String SQL_INSERT = "insert into record (name,composer,year)values(?,?,?)";
-    private final static String SQL_UPDATE = "update record set name=?,composer=?,year=?, where id=?";
+    private final static String SQL_INSERT = "insert into record (name,composer,year,listened)values(?,?,?,?)";
+    private final static String SQL_UPDATE = "update record set name=?,composer=?,year=?,listened=? where id=?";
     private final static String SQL_DELETE = "delete from record where id=?";
 
     public DefaultTableModel select() {
         DefaultTableModel model = new DefaultTableModel() {
             @Override
-            public boolean isCellEditable(int row, int column) {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return false;
             }
+            Class[] Columntype = {Integer.class, String.class, String.class, Integer.class, Boolean.class};
+
+            @Override
+            public Class getColumnClass(int indColum) {
+                return Columntype[indColum];
+            }
         };
-        Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR"};
+        Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR", "LISTENED"};
         model.setColumnIdentifiers(tags);
         try (Connection conn = Conexion.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(SQL_SELECT);
@@ -49,12 +55,14 @@ public class DaoRecord {
 
     public DefaultTableModel selectByName(String name) {
         DefaultTableModel model = new DefaultTableModel() {
+            Class[] Columntype = {Integer.class, String.class, String.class, Integer.class, Boolean.class};
+
             @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
+            public Class getColumnClass(int indColum) {
+                return Columntype[indColum];
             }
         };
-        Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR"};
+        Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR", "LISTENED"};
         model.setColumnIdentifiers(tags);
         try (Connection conn = Conexion.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(SQL_SELECT + " where name='" + name + "'");
@@ -76,6 +84,7 @@ public class DaoRecord {
             stmt.setString(1, r.getName());
             stmt.setString(2, r.getComposer());
             stmt.setInt(3, r.getYear());
+            stmt.setBoolean(4, r.isListened());
             stmt.executeUpdate();
             insert = true;
         } catch (SQLException e) {
@@ -91,7 +100,8 @@ public class DaoRecord {
             stmt.setString(1, r.getName());
             stmt.setString(2, r.getComposer());
             stmt.setInt(3, r.getYear());
-            stmt.setInt(4, r.getId());
+            stmt.setBoolean(4, r.isListened());
+            stmt.setInt(5, r.getId());
             stmt.executeUpdate();
             update = true;
         } catch (SQLException e) {
@@ -114,9 +124,11 @@ public class DaoRecord {
 
     private Object[] setRow(Object[] tags, ResultSet rs) throws SQLException {
         Object[] rowData = new Object[tags.length];
-        for (int i = 0; i < tags.length; i++) {
+        for (int i = 0; i < tags.length - 1; i++) {
             rowData[i] = rs.getObject(i + 1);
         }
+        int b = rs.getInt(tags.length);
+        rowData[tags.length - 1] = 1 == b;
         return rowData;
     }
 }

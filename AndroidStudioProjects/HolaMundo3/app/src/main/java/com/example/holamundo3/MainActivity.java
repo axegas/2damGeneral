@@ -45,8 +45,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    public void onActivityResult(int cod_resp, int cod_result,Intent intent){
-        if (cod_result== RESULT_OK) {
+    public void onActivityResult(int cod_resp, int cod_result,Intent intent) {
+        super.onActivityResult(cod_resp, cod_result, intent);
+        if (cod_result == RESULT_OK) {
             Bundle otroBundle = intent.getExtras();
             elSaludo.setText(otroBundle.getString("DEVUELTO"));
         }

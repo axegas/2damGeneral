@@ -8,10 +8,17 @@ package com.projectmusiccrud.view;
 import com.projectmusiccrud.controller.ControllerRecord;
 import com.projectmusiccrud.model.Record;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -50,26 +57,25 @@ public class ViewRecordMain extends JFrame {
 
     private void initComponents() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setBounds(200, 200, 500, 400);
+        setBounds(400, 300, 500, 400);
         setTitle("Record table");
 
-        mnBar = new JMenuBar();
         table = new JTable();
+        mnBar = new JMenuBar();
 
         btnUpdate = new JButton("Update");
         btnDelete = new JButton("Delete");
         lblSearch = new JLabel("Search");
         txtSearch = new JTextField(20);
 
-        
         txtSearch.addActionListener(t -> search());
         btnUpdate.addActionListener(b -> update());
         btnDelete.addActionListener(b -> delete());
 
         pnlMain = new JPanel(new BorderLayout());
         pnlTop = new JPanel(new BorderLayout());
-        pnlBottom = new JPanel(new FlowLayout());
-
+        pnlBottom = new JPanel(new FlowLayout());        
+               
         pnlTop.add(mnBar, BorderLayout.NORTH);
         pnlTop.add(new JScrollPane(table), BorderLayout.CENTER);
         pnlBottom.add(btnUpdate);
@@ -84,8 +90,11 @@ public class ViewRecordMain extends JFrame {
     }
 
     private void configMenuBar() {
-        JMenu menuOptions = new JMenu("Options");
+        JMenu menuOptions = new JMenu("Options");        
+        JMenu menuYoutube = new JMenu("Other");
+        
         mnBar.add(menuOptions);
+        mnBar.add(menuYoutube);
 
         JMenuItem menuItem = new JMenuItem("New");
         menuItem.setMnemonic(KeyEvent.VK_N);
@@ -106,10 +115,23 @@ public class ViewRecordMain extends JFrame {
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
         menuOptions.add(menuItem);
         menuItem.addActionListener(t -> print());
+
+        menuItem = new JMenuItem("Search in Youtube");
+        menuItem.setMnemonic(KeyEvent.VK_S);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+        menuYoutube.add(menuItem);
+        menuItem.addActionListener(t -> youtube());
+
+        menuItem = new JMenuItem("Exit");
+        menuItem.setMnemonic(KeyEvent.VK_E);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+        menuYoutube.add(menuItem);
+        menuItem.addActionListener(t -> exit());
     }
 
     private void reload() {
         table.setModel(controller.selectModel());
+        table.removeColumn(table.getColumnModel().getColumn(0));
     }
 
     private Record getSelectedValue(int n) {
@@ -120,7 +142,8 @@ public class ViewRecordMain extends JFrame {
             String name = (String) model.getValueAt(n, 1);
             String composer = (String) model.getValueAt(n, 2);
             int year = (Integer) model.getValueAt(n, 3);
-            r = new Record(id, name, composer, year);
+            boolean listened = (boolean) model.getValueAt(n, 4);
+            r = new Record(id, name, composer, year, listened);
         }
         return r;
     }
@@ -188,7 +211,7 @@ public class ViewRecordMain extends JFrame {
             } else {
                 table.setModel(model);
             }
-        }else{
+        } else {
             reload();
         }
         txtSearch.setText("");
@@ -203,5 +226,32 @@ public class ViewRecordMain extends JFrame {
         controller.createPDF(records);
     }
 
+    private void youtube() {
+        int x = table.getSelectedRow();
+        int y = table.getSelectedColumn();
+        if (x != -1) {
+            String name = table.getModel().getValueAt(x, y+1).toString();
+            String url = "https://www.youtube.com/results?search_query=";
+            for (int i = 0; i < name.length(); i++) {
+                char c = name.charAt(i);
+                if (c != ' ') {
+                    url += c;
+                } else {
+                    url += "+";
+                }
+            }
+            try {
+                Desktop.getDesktop().browse(new URI(url));
+            } catch (URISyntaxException | IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No record selected", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
+    private void exit() {
+        JOptionPane.showMessageDialog(null, "Good bye!", "Bye", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
+    }
 }
