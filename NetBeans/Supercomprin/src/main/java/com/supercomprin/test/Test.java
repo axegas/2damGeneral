@@ -24,22 +24,21 @@ public class Test {
 
     public static void main(String args[]) {
         try {
-            Random r = new Random();
+
             CompraDAO daoc = new CompraDAO(Conexion.getConnection());
             WalletDAO daow = new WalletDAO(Conexion.getConnection());
             ProductoDAO daop = new ProductoDAO(Conexion.getConnection());
 
             ArrayList<Wallet> wallets = daow.select();
             ArrayList<Producto> productos = daop.select();
-
+            
+            Random r = new Random();
             //Unas cuantas recargas de saldo
 //            for (int i = 0; i < wallets.size(); i++) {
 //                F.recargarWallet(wallets.get(i), r.nextInt(1000));
 //            }
 
             //recargo los wallets con el saldo actualizado despues de recargar
-            wallets = daow.select();
-            
             //unas cuantas compras de prueba - con saldo
 //            for (int i = 0; i < 200; i++) {
 //                int w = r.nextInt(wallets.size());
@@ -51,26 +50,24 @@ public class Test {
             wallets = daow.select();
 
             //unas cuantas compras de prueba - con puntos
-            for (int i = 0; i < 1; i++) {
-                int w = r.nextInt(wallets.size());
-                int p = r.nextInt(productos.size());
-                System.out.println(wallets.get(w));
-                System.out.println( productos.get(p));
-                F.pagarCompraConPuntos(wallets.get(w), productos.get(p));
-                
-            }
+//            for (int i = 0; i < 1; i++) {
+//                int w = r.nextInt(wallets.size());
+//                int p = r.nextInt(productos.size());
+//                System.out.println(wallets.get(w));
+//                System.out.println(productos.get(p));
+//                F.pagarCompraConPuntos(wallets.get(w), productos.get(p));
+//
+//            }
 
-/*
             //Seleccionamos las compras que hemos realizado
             ArrayList<Compra> compras = daoc.select();
 
             //devolvemos algunas compras aleatorias
-            for (int i = 0; i < 20; i++) {
-                int n = r.nextInt(compras.size());
-                F.devolverProducto(compras.get(n));
-            }
-     */      
-            
+//            for (int i = 0; i < 20; i++) {
+//                int n = r.nextInt(compras.size());
+//                F.devolverProducto(compras.get(n));
+//            }
+
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
             //Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);

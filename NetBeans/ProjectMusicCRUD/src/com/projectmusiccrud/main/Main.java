@@ -19,7 +19,7 @@ public class Main {
      */
     public static void main(String[] args) {
         ViewRecordMain view = new ViewRecordMain();
-        JOptionPane.showMessageDialog(null, "Welcome!", "Welcome", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Welcome!", "Welcome", JOptionPane.INFORMATION_MESSAGE);//mensaje de bienvenida
         view.setVisible(true);
     }
 

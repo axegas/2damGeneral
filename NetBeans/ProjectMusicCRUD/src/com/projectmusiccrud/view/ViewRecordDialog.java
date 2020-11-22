@@ -27,6 +27,7 @@ public class ViewRecordDialog extends JDialog {
 
     private Record record;
 
+    //cuadro de dialogo para insertar/modificar el disco
     public ViewRecordDialog(JFrame parent, Record r, String str) {
         super(parent, str + " a record", true);
         this.record = r;

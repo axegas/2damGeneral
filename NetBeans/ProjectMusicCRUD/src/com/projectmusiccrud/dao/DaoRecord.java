@@ -19,25 +19,27 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DaoRecord {
 
+    //sentencias SQL preparadas
     private final static String SQL_SELECT = "select * from record";
     private final static String SQL_INSERT = "insert into record (name,composer,year,listened)values(?,?,?,?)";
     private final static String SQL_UPDATE = "update record set name=?,composer=?,year=?,listened=? where id=?";
     private final static String SQL_DELETE = "delete from record where id=?";
 
+    //metodo select. devuelve el tablemodel para formatear la jtable con los datos obtenidos de la base de datos
     public DefaultTableModel select() {
         DefaultTableModel model = new DefaultTableModel() {
             @Override
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {//para que las filas no sean editables
                 return false;
             }
             Class[] Columntype = {Integer.class, String.class, String.class, Integer.class, Boolean.class};
 
             @Override
-            public Class getColumnClass(int indColum) {
+            public Class getColumnClass(int indColum) {//para poder hacer que la ultima columna sea un check
                 return Columntype[indColum];
             }
         };
-        Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR", "LISTENED"};
+        Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR", "LISTENED"};//cabeceras de la jtable
         model.setColumnIdentifiers(tags);
         try (Connection conn = Conexion.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(SQL_SELECT);
@@ -53,8 +55,13 @@ public class DaoRecord {
         return model;
     }
 
-    public DefaultTableModel selectByName(String name) {
+    //a partir de los datos de los objetos, devuelve el tablemodel con el resultado de la busqueda
+    public DefaultTableModel specificSearch(String name, String composer, int year, int listened) {
         DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
             Class[] Columntype = {Integer.class, String.class, String.class, Integer.class, Boolean.class};
 
             @Override
@@ -64,8 +71,47 @@ public class DaoRecord {
         };
         Object[] tags = new Object[]{"ID", "NAME", "COMPOSER", "YEAR", "LISTENED"};
         model.setColumnIdentifiers(tags);
+
+        //a partir de aquí, construyo el Where
+        String nameStr = "";
+        String composerStr = "";
+        String where = "";
+        String listenedStr = "";
+        if (year > 0) {
+            where += " year = " + year;
+        }
+        if (name.length() > 0) {
+            nameStr += " name like '%" + name + "%'";
+            if (where.length() > 0) {
+                where += " and " + nameStr;
+            } else {
+                where += nameStr;
+            }
+        }
+        if (composer.length() > 0) {
+            composerStr += " composer like '%" + composer + "%'";
+            if (where.length() > 0) {
+                where += " and " + composerStr;
+            } else {
+                where += composerStr;
+            }
+        }
+
+        if (listened != 2) {
+            listenedStr += " listened = " + listened;
+            if (where.length() > 0) {
+                where += " and " + listenedStr;
+            } else {
+                where += listenedStr;
+            }
+        }
+
+        if (where.length() > 0) {
+            where = " where " + where;
+        }
+
         try (Connection conn = Conexion.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(SQL_SELECT + " where name='" + name + "'");
+                PreparedStatement stmt = conn.prepareStatement(SQL_SELECT + where);//una vez tengo el where construido, lo añado a la busqueda
                 ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Object[] rowData = setRow(tags, rs);
@@ -122,6 +168,7 @@ public class DaoRecord {
         return delete;
     }
 
+    //a partir del rs, creo cada fila de datos, para insertarla posteriormente en el tablemodel
     private Object[] setRow(Object[] tags, ResultSet rs) throws SQLException {
         Object[] rowData = new Object[tags.length];
         for (int i = 0; i < tags.length - 1; i++) {

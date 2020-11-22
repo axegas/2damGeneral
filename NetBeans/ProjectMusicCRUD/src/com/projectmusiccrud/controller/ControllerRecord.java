@@ -24,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  * @author peixe
  */
 public class ControllerRecord {
-
+    
     private final DaoRecord dao;
 
     public ControllerRecord() {
@@ -47,12 +47,12 @@ public class ControllerRecord {
         DefaultTableModel model = dao.select();
         return model;
     }
-
-    public DefaultTableModel selectModelByName(String name) {
-        DefaultTableModel model = dao.selectByName(name);
+    //para sacar el modelo con los discos pero buscando de forma especifica
+    public DefaultTableModel specificSearch(String name, String composer, int year, int listened) {
+        DefaultTableModel model = dao.specificSearch(name,composer,year,listened);
         return model;
     }
-
+    //este método permite guardar en un documento PDF la lista de los discos 
     public void createPDF(ArrayList<Record> records) {
         try {
             String text = "Record List:\n\n";

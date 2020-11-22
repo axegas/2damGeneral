@@ -35,6 +35,7 @@ public class Conexion {
         `listened` INT NULL DEFAULT NULL,
         PRIMARY KEY (`id`));
     
+    
     INSERT INTO record (name, composer, year) VALUES ("Disk 1","Composer 1",1985);
     INSERT INTO record (name, composer, year) VALUES ("Disk 2","Composer 2",1986);
     INSERT INTO record (name, composer, year) VALUES ("Disk 3","Composer 3",1999);
