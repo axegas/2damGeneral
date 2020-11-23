@@ -35,6 +35,7 @@ public class WalletDAO {
         this.conexionTransaccional = conexionTransaccional;
     }
 
+    
     public ArrayList<Wallet> select() throws SQLException {
         ArrayList<Wallet> wallets = new ArrayList<>();
         Wallet w;

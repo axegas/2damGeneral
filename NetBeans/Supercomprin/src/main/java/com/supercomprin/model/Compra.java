@@ -17,21 +17,32 @@ public class Compra {
     private Producto producto;
     private Wallet wallet;
     private Date fecha;
+    private boolean devuelta;
 
     public Compra() {
     }
 
-    public Compra(int idCompra, Producto producto, Wallet wallet, Date fecha) {
+    public Compra(int idCompra, Producto producto, Wallet wallet, boolean devuelta, Date fecha ) {
         this.idCompra = idCompra;
         this.producto = producto;
         this.wallet = wallet;
         this.fecha = fecha;
+        this.devuelta = devuelta;
     }
 
     public Compra(Producto producto, Wallet wallet, Date fecha) {
         this.producto = producto;
         this.wallet = wallet;
         this.fecha = fecha;
+        this.devuelta = false;
+    }
+
+    public boolean isDevuelta() {
+        return devuelta;
+    }
+
+    public void setDevuelta(boolean devuelta) {
+        this.devuelta = devuelta;
     }
 
     public int getIdCompra() {
@@ -68,8 +79,10 @@ public class Compra {
 
     @Override
     public String toString() {
-        return "Compra{" + "idCompra=" + idCompra + ", producto=" + producto + ", wallet=" + wallet + ", fecha=" + fecha + '}';
+        return "Compra{" + "idCompra=" + idCompra + ", producto=" + producto + ", wallet=" + wallet + ", fecha=" + fecha + ", devuelta=" + devuelta + '}';
     }
+
+
     
     
 }

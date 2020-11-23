@@ -27,6 +27,7 @@ import java.text.ParseException;
 public class F {//En esta clase implemento las funciones básicas para gestionar el supermercado
 
     public static void pagarCompraConSaldo(Wallet w, Producto p) {
+        boolean realizada = true;
         Connection conexion = null;
         try {
             conexion = Conexion.getConnection();
@@ -37,33 +38,37 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             CompraDAO daoc = new CompraDAO(conexion);
             WalletDAO daow = new WalletDAO(conexion);
 
+            //actualizar los datos del wallet
             w.setPuntos(w.getPuntos() + p.getPuntos());
             w.setSaldo(w.getSaldo() - p.getPrecio());
             daow.update(w);
 
+            //crear la nueva compra
             Compra c = new Compra(p, w, getNow());
             daoc.insert(c);
 
             conexion.commit();
-            System.out.println("Gracias por su compra.");
 
         } catch (SQLException e) {
-            //e.printStackTrace(System.out);
-            try {
-                if (conexion == null) {
-                    System.out.println("no se ha podido conectar");
-                } else {
+            if (conexion != null) {
+                try {
                     conexion.rollback();
-                    System.out.println("Rollback: ha habido algún error al hacer la compra.");
+                    System.out.println("Rollback: La base de datos no puede realizar la operación");
+                } catch (SQLException ex) {
+                    System.out.println("Error al hacer el rollback");
                 }
-            } catch (SQLException ex1) {
-                ex1.printStackTrace(System.out);
+            } else {
+                System.out.println("No se ha podido conectar");
             }
+            realizada = false;
+        }
+        if (realizada) {
+            System.out.println("Gracias por su compra.");
         }
     }
 
     public static void pagarCompraConPuntos(Wallet w, Producto p) {
-
+        boolean realizada = true;
         Connection conexion = null;
         try {
             conexion = Conexion.getConnection();
@@ -74,35 +79,41 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             CompraDAO daoc = new CompraDAO(conexion);
             WalletDAO daow = new WalletDAO(conexion);
 
+            //actualizar los datos del wallet
             w.setPuntos(w.getPuntos() - (int) p.getPrecio());
             daow.update(w);
 
+            //crear la nueva compra
             Compra c = new Compra(p, w, getNow());
             daoc.insert(c);
 
             //comprobamos que el producto no valga menos de 5€
             if (p.getPrecio() < 5) {
-                System.out.println("Rollback: No puede comprar el producto.");
+                System.out.println("Rollback: No puede comprar el producto, el precio es menor de 5€.");
                 conexion.rollback();
             }
             conexion.commit();
 
         } catch (SQLException e) {
-            //e.printStackTrace(System.out);
-            try {
-                if (conexion == null) {
-                    System.out.println("no se ha podido conectar");
-                } else {
+            if (conexion != null) {
+                try {
                     conexion.rollback();
-                    System.out.println("Rollback: ha habido algún error al hacer la compra.");
+                    System.out.println("Rollback: La base de datos no puede realizar la operación");
+                } catch (SQLException ex) {
+                    System.out.println("Error al hacer el rollback");
                 }
-            } catch (SQLException ex1) {
-                ex1.printStackTrace(System.out);
+            } else {
+                System.out.println("No se ha podido conectar");
             }
+            realizada = false;
+        }
+        if (realizada) {
+            System.out.println("Gracias por su compra.");
         }
     }
 
     public static void devolverProducto(Compra c) {
+        boolean devuelto = true;
         Connection conexion = null;
         try {
             conexion = Conexion.getConnection();
@@ -113,41 +124,52 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             WalletDAO daow = new WalletDAO(conexion);
             ProductoDAO daop = new ProductoDAO(conexion);
             DevolucionDAO daod = new DevolucionDAO(conexion);
+            CompraDAO daoc = new CompraDAO(conexion);
 
             Wallet w = daow.selectWallet(c.getWallet().getIdWallet());
             Producto p = daop.selectProducto(c.getProducto().getIdproducto());
 
+            //actualizar los datos del wallet
             w.setPuntos(w.getPuntos() - p.getPuntos());
             w.setSaldo(w.getSaldo() + p.getPrecio());
             daow.update(w);
 
+            //actualizar el estado de la compra
+            c.setDevuelta(true);
+            daoc.update(c);
+
+            //crear la devolución
             Devolucion d = new Devolucion(c, getNow());
             daod.insert(d);
 
-            //comprobamos que el wallet no se vaya a quedar con menos de 5 puntos
+            //comprobar que el wallet no se vaya a quedar con menos de 5 puntos
             if (w.getPuntos() - p.getPuntos() < 5) {
-                System.out.println("Rollback: ha habido algún error al hacer la devolución.");
+                System.out.println("Rollback: Puntos insuficientes.");
                 conexion.rollback();
             }
 
             conexion.commit();
         } catch (SQLException e) {
-            //e.printStackTrace(System.out);
-            try {
-                if (conexion == null) {
-                    System.out.println("no se ha podido conectar");
-                } else {
+            if (conexion != null) {
+                try {
                     conexion.rollback();
-                    System.out.println("Rollback: ha habido algún error al hacer la devolución.");
+                    System.out.println("Rollback: La base de datos no puede realizar la operación");
+                } catch (SQLException ex) {
+                    System.out.println("Error al hacer el rollback");
                 }
-            } catch (SQLException ex1) {
-                ex1.printStackTrace(System.out);
+            } else {
+                System.out.println("No se ha podido conectar");
             }
+            devuelto = false;
+        }
+        if (devuelto) {
+            System.out.println("Gracias por su devolución.");
         }
     }
 
     //a partir del wallet, y la cantidad que queremos recargar, recargamos su saldo
     public static void recargarWallet(Wallet w, int recarga) {
+        boolean realizada = true;
         Connection conexion = null;
         try {
             conexion = Conexion.getConnection();
@@ -155,29 +177,33 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
                 conexion.setAutoCommit(false);
             }
 
+            //actualizar datos del wallet
             WalletDAO daow = new WalletDAO(conexion);
             w.setSaldo(w.getSaldo() + recarga);
             daow.update(w);
 
-            //comprobamos que estemos en la fecha correcta
-            int dia = Integer.parseInt((new SimpleDateFormat("dd")).format(new java.util.Date()));
-            if (dia > 5) {
-                conexion.rollback();
-                System.out.println("Rollback: No puede hacer la recarga.");
-            }
+            //comprobar que estamos en la fecha correcta
+//            int dia = Integer.parseInt((new SimpleDateFormat("dd")).format(new java.util.Date()));
+//            if (dia > 5) {
+//                conexion.rollback();
+//                System.out.println("Rollback: No puede hacer la recarga, fuera de fecha.");
+//            }
             conexion.commit();
         } catch (SQLException e) {
-            //e.printStackTrace(System.out);            
-            try {
-                if (conexion == null) {
-                    System.out.println("no se ha podido conectar");
-                } else {
+            if (conexion != null) {
+                try {
                     conexion.rollback();
-                    System.out.println("Rollback: ha habido algún error al hacer la Recarga.");
+                    System.out.println("Rollback: La base de datos no puede realizar la operación");
+                } catch (SQLException ex) {
+                    System.out.println("Error al hacer el rollback");
                 }
-            } catch (SQLException ex1) {
-                ex1.printStackTrace(System.out);
+            } else {
+                System.out.println("No se ha podido conectar");
             }
+            realizada = false;
+        }
+        if (realizada) {
+            System.out.println("Gracias por su recarga.");
         }
     }
 

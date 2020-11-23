@@ -24,7 +24,7 @@ public class CompraDAO {
 
     private final static String SQL_SELECT = "select * from compra";
     private final static String SQL_INSERT = "insert into compra(idproducto, idwallet, fecha)values(?,?,?)";
-    private final static String SQL_UPDATE = "update compra set idproducto=?,idwallet=?,fecha=? where idcompra=?";
+    private final static String SQL_UPDATE = "update compra set idproducto=?,idwallet=?,devuelta=?,fecha=? where idcompra=?";
     private final static String SQL_DELETE = "delete from compra where idcompra=?";
 
     private Connection conexionTransaccional;
@@ -126,8 +126,9 @@ public class CompraDAO {
             stmt = conn.prepareStatement(SQL_UPDATE);
             stmt.setInt(1, c.getProducto().getIdproducto());
             stmt.setInt(2, c.getWallet().getIdWallet());
-            stmt.setDate(3, c.getFecha());
-            stmt.setInt(4, c.getIdCompra());
+            stmt.setBoolean(3, c.isDevuelta());
+            stmt.setDate(4, c.getFecha());
+            stmt.setInt(5, c.getIdCompra());
             registros = stmt.executeUpdate();
         } finally {
             try {
@@ -170,13 +171,14 @@ public class CompraDAO {
         int idcompra = rs.getInt("idcompra");
         int idwallet = rs.getInt("idwallet");
         Date fecha = rs.getDate("fecha");
-        
+        boolean devuelta = rs.getBoolean("devuelta");
+
         //a partir del idproducto y idwallet leidos de la tabla compra, busco los correspondientes datos necesarios para construir el objeto
         ProductoDAO daop = new ProductoDAO();
         WalletDAO daow = new WalletDAO();
         Producto producto = daop.selectProducto(idproducto);
         Wallet wallet = daow.selectWallet(idwallet);
-        Compra compra = new Compra(idcompra, producto, wallet, fecha);
+        Compra compra = new Compra(idcompra, producto, wallet, devuelta, fecha);
         return compra;
     }
 
