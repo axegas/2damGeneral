@@ -12,6 +12,7 @@ import com.supercomprin.dao.WalletDAO;
 import com.supercomprin.model.Compra;
 import com.supercomprin.model.Producto;
 import com.supercomprin.model.Wallet;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -48,7 +49,7 @@ public class Test {
 
             //recargo los wallets con el saldo actualizado despues de comprar
             wallets = daow.select();
-
+            
             //unas cuantas compras de prueba - con puntos
 //            for (int i = 0; i < 1; i++) {
 //                int w = r.nextInt(wallets.size());
@@ -58,7 +59,8 @@ public class Test {
 //                F.pagarCompraConPuntos(wallets.get(w), productos.get(p));
 //
 //            }
-
+    Date fecha = F.getFecha("2020-11-15");
+            
             //Seleccionamos las compras que hemos realizado
             ArrayList<Compra> compras = daoc.select();
 
@@ -70,7 +72,6 @@ public class Test {
 
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
-            //Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

@@ -61,7 +61,7 @@ public class ViewRecordMain extends JFrame {
 
     private void initComponents() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setBounds(400, 300, 900, 450);
+        setBounds(400, 300, 1000, 450);
         setTitle("Record table");
 
         table = new JTable();

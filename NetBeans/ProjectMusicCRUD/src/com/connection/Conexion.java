@@ -27,12 +27,13 @@ public class Conexion {
 
     /*
     CREATE SCHEMA `music_db` ;
+    DROP TABLE record;
     CREATE TABLE IF NOT EXISTS `music_db`.`record` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `name` VARCHAR(45) NOT NULL,
         `composer` VARCHAR(45) NOT NULL,
         `year` INT NULL,
-        `listened` INT NULL DEFAULT NULL,
+        `listened` INT NULL DEFAULT 0,
         PRIMARY KEY (`id`));
     
     
