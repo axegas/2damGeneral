@@ -56,6 +56,8 @@ public class ProductoDAO {
                 }
             } catch (SQLException e) {
                 e.printStackTrace(System.out);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         }
 
@@ -72,7 +74,7 @@ public class ProductoDAO {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT + " where idproducto=" + idproducto);
             rs = stmt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 p = crearProducto(rs);
             }
         } finally {
@@ -84,6 +86,8 @@ public class ProductoDAO {
                 }
             } catch (SQLException e) {
                 e.printStackTrace(System.out);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         }
         return p;

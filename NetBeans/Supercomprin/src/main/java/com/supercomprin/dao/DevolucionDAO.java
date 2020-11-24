@@ -60,6 +60,8 @@ public class DevolucionDAO {
                 }
             } catch (SQLException e) {
                 e.printStackTrace(System.out);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         }
 
@@ -67,7 +69,7 @@ public class DevolucionDAO {
     }
 
     //esta función recibe el id de una compra y devuelve la compra correspondiente, o null si no existe
-    public Devolucion selectCompra(int iddevolucion) throws SQLException {
+    public Devolucion selectDevolucion(int iddevolucion) throws SQLException {
         Devolucion d = null;
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -76,7 +78,7 @@ public class DevolucionDAO {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT + " where iddevolucion = " + iddevolucion);
             rs = stmt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 d = crearDevolucion(rs);
             }
         } finally {
@@ -88,6 +90,8 @@ public class DevolucionDAO {
                 }
             } catch (SQLException e) {
                 e.printStackTrace(System.out);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         }
 
@@ -169,12 +173,12 @@ public class DevolucionDAO {
         int iddevolucion = rs.getInt("iddevolucion");
         int idcompra = rs.getInt("idcompra");
         Date fecha = rs.getDate("fecha");
-        
+
         //a partir del idcompra leido de la tabla devolución, busco la compra para construir el objeto
         CompraDAO daoc = new CompraDAO();
         Compra c = daoc.selectCompra(idcompra);
 
-        Devolucion devolucion = new Devolucion(iddevolucion,c, fecha);
+        Devolucion devolucion = new Devolucion(iddevolucion, c, fecha);
         return devolucion;
     }
 

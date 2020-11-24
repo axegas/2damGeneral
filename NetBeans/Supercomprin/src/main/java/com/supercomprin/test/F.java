@@ -53,7 +53,7 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             if (conexion != null) {
                 try {
                     conexion.rollback();
-                    System.out.println("Rollback: La base de datos no puede realizar la operación");
+                    System.out.println("Rollback: " + e.getMessage());
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
@@ -70,6 +70,7 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
     public static void pagarCompraConPuntos(Wallet w, Producto p) {
         boolean realizada = true;
         Connection conexion = null;
+        int contador = 0;
         try {
             conexion = Conexion.getConnection();
             if (conexion.getAutoCommit()) {
@@ -98,7 +99,7 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             if (conexion != null) {
                 try {
                     conexion.rollback();
-                    System.out.println("Rollback: La base de datos no puede realizar la operación");
+                    System.out.println("Rollback: " + e.getMessage());
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
@@ -107,8 +108,9 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             }
             realizada = false;
         }
+        
         if (realizada) {
-            System.out.println("Gracias por su compra.");
+            System.out.println("Gracias por su compra");
         }
     }
 
@@ -124,7 +126,6 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             WalletDAO daow = new WalletDAO(conexion);
             ProductoDAO daop = new ProductoDAO(conexion);
             DevolucionDAO daod = new DevolucionDAO(conexion);
-            CompraDAO daoc = new CompraDAO(conexion);
 
             Wallet w = daow.selectWallet(c.getWallet().getIdWallet());
             Producto p = daop.selectProducto(c.getProducto().getIdproducto());
@@ -133,10 +134,6 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             w.setPuntos(w.getPuntos() - p.getPuntos());
             w.setSaldo(w.getSaldo() + p.getPrecio());
             daow.update(w);
-
-            //actualizar el estado de la compra
-            c.setDevuelta(true);
-            daoc.update(c);
 
             //crear la devolución
             Devolucion d = new Devolucion(c, getNow());
@@ -153,7 +150,7 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             if (conexion != null) {
                 try {
                     conexion.rollback();
-                    System.out.println("Rollback: La base de datos no puede realizar la operación");
+                    System.out.println("Rollback: " + e.getMessage());
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
@@ -193,7 +190,7 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             if (conexion != null) {
                 try {
                     conexion.rollback();
-                    System.out.println("Rollback: La base de datos no puede realizar la operación");
+                    System.out.println("Rollback: " + e.getMessage());
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
@@ -215,9 +212,9 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
         return fechaSQL;
     }
 
-    //el siguiente devuelve, a partir de un string en formato "yyyy-MM-dd", el objeto de tipo sql.date
+    //el siguiente devuelve, a partir de un string en formato "dd-MM-yyyy", el objeto de tipo sql.date
     public static Date getFecha(String strfecha) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         Date fechaSQL = null;
         try {
             java.util.Date fechaJAVA = sdf.parse(strfecha);

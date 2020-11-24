@@ -5,12 +5,14 @@
  */
 package com.supercomprin.test;
 
+import com.conectar.Conexion;
 import com.supercomprin.dao.CompraDAO;
 import com.supercomprin.dao.ProductoDAO;
 import com.supercomprin.dao.WalletDAO;
 import com.supercomprin.model.Compra;
 import com.supercomprin.model.Producto;
 import com.supercomprin.model.Wallet;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -25,18 +27,22 @@ public class Test {
     public static void main(String args[]) throws SQLException {
 
         try {
+            WalletDAO daow = new WalletDAO();
+            ProductoDAO daop = new ProductoDAO();
+            ArrayList<Wallet> wallets = daow.select();
+            ArrayList<Producto> productos = daop.select();
             int opc;
             do {
                 opc = menu();
                 switch (opc) {
                     case 1:
-                        recargasSaldoAleatorias();
+                        recargasSaldoAleatorias(wallets);
                         break;
                     case 2:
-                        comprarConSaldo();
+                        comprarConSaldo(wallets, productos);
                         break;
                     case 3:
-                        comprarConPuntos();
+                        comprarConPuntos(wallets, productos);
                         break;
                     case 4:
                         variasDevoluciones();
@@ -60,56 +66,57 @@ public class Test {
     }
 
     //este método sirve para recargar el saldo de las wallets con un número aleatorio entre 0 y 999
-    public static void recargasSaldoAleatorias() throws SQLException {
+    public static void recargasSaldoAleatorias(ArrayList<Wallet> wallets) throws SQLException {
         Random r = new Random();
-        WalletDAO daow = new WalletDAO();
-        ArrayList<Wallet> wallets = daow.select();
-        for (int i = 0; i < wallets.size(); i++) {
-            F.recargarWallet(wallets.get(i), r.nextInt(1000));
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < wallets.size(); i++) {
+                F.recargarWallet(wallets.get(i), r.nextInt(1000));
+            }
         }
     }
 
-    //este método sirve para realizar 50 compras de forma aleatoria con saldo.
-    public static void comprarConSaldo() throws SQLException {
+    //este método sirve para realizar compras de forma aleatoria con saldo.
+    public static void comprarConSaldo(ArrayList<Wallet> wallets, ArrayList<Producto> productos) throws SQLException {
         Random r = new Random();
-        WalletDAO daow = new WalletDAO();
-        ProductoDAO daop = new ProductoDAO();
-        ArrayList<Wallet> wallets = daow.select();
-        ArrayList<Producto> productos = daop.select();
-        for (int i = 0; i < 50; i++) {
-            int w = r.nextInt(wallets.size());
-            int p = r.nextInt(productos.size());
-            F.pagarCompraConSaldo(wallets.get(w), productos.get(p));
+        try (Connection c = Conexion.getConnection()) {
+            WalletDAO daow = new WalletDAO(c);
+            for (int i = 0; i < 300; i++) {
+                int w = r.nextInt(wallets.size());
+                int p = r.nextInt(productos.size());
+                Wallet wallet = daow.selectWallet(wallets.get(w).getIdWallet());
+                F.pagarCompraConSaldo(wallet, productos.get(p));
+            }
         }
     }
 
-    //este método sirve para realizar 50 compras de forma aleatoria con puntos.
-    public static void comprarConPuntos() throws SQLException {
+    //este método sirve para realizar compras de forma aleatoria con puntos.
+    public static void comprarConPuntos(ArrayList<Wallet> wallets, ArrayList<Producto> productos) throws SQLException {
         Random r = new Random();
-        WalletDAO daow = new WalletDAO();
-        ProductoDAO daop = new ProductoDAO();
-        ArrayList<Wallet> wallets = daow.select();
-        ArrayList<Producto> productos = daop.select();
-        for (int i = 0; i < 50; i++) {
-            int w = r.nextInt(wallets.size());
-            int p = r.nextInt(productos.size());
-            F.pagarCompraConPuntos(wallets.get(w), productos.get(p));
+        try (Connection c = Conexion.getConnection()) {
+            WalletDAO daow = new WalletDAO(c);
+            for (int i = 0; i < 300; i++) {
+                int w = r.nextInt(wallets.size());
+                int p = r.nextInt(productos.size());
+                Wallet wallet = daow.selectWallet(wallets.get(w).getIdWallet());
+                F.pagarCompraConPuntos(wallet, productos.get(p));
+            }
         }
     }
 
-    //este método sirve para hacer 50 devoluciones aleatorias
+    //este método sirve para hacer devoluciones aleatorias
     public static void variasDevoluciones() throws SQLException {
         Random r = new Random();
-        CompraDAO daoc = new CompraDAO();
-        ArrayList<Compra> compras = daoc.select();
-        for (int i = 0; i < 50; i++) {
+        try (Connection c = Conexion.getConnection()) {
+            CompraDAO daoc = new CompraDAO(c);
+            ArrayList<Compra> compras = daoc.select();
             if (compras.isEmpty()) {
                 System.out.println("No hay ninguna compra");
-                break;
+                return;
             }
-            int n = r.nextInt(compras.size());
-            F.devolverProducto(compras.get(n));
-            compras.remove(n);
+            for (int i = 0; i < 50; i++) {
+                int n = r.nextInt(compras.size());
+                F.devolverProducto(compras.get(n));
+            }
         }
     }
 }

@@ -35,7 +35,6 @@ public class WalletDAO {
         this.conexionTransaccional = conexionTransaccional;
     }
 
-    
     public ArrayList<Wallet> select() throws SQLException {
         ArrayList<Wallet> wallets = new ArrayList<>();
         Wallet w;
@@ -59,6 +58,8 @@ public class WalletDAO {
                 }
             } catch (SQLException e) {
                 e.printStackTrace(System.out);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         }
 
@@ -75,7 +76,7 @@ public class WalletDAO {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT + " where idwallet=" + idwallet);
             rs = stmt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 w = crearWallet(rs);
             }
         } finally {
@@ -86,7 +87,9 @@ public class WalletDAO {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
-                e.printStackTrace(System.out);
+                System.out.println(e.getMessage());
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         }
         return w;
