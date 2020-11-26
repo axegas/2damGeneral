@@ -52,9 +52,13 @@ public class CompraDAO {
             }
         } finally {
             try {
-                Conexion.close(rs);
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (rs != null) {
+                    Conexion.close(rs);
+                }
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -82,9 +86,13 @@ public class CompraDAO {
             }
         } finally {
             try {
-                Conexion.close(rs);
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (rs != null) {
+                    Conexion.close(rs);
+                }
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -110,8 +118,10 @@ public class CompraDAO {
             registros = stmt.executeUpdate();
         } finally {
             try {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -135,8 +145,10 @@ public class CompraDAO {
             registros = stmt.executeUpdate();
         } finally {
             try {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -157,8 +169,10 @@ public class CompraDAO {
             registros = stmt.executeUpdate();
         } finally {
             try {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -174,14 +188,19 @@ public class CompraDAO {
         int idcompra = rs.getInt("idcompra");
         int idwallet = rs.getInt("idwallet");
         Date fecha = rs.getDate("fecha");
+        Compra compra;
 
         //a partir del idproducto y idwallet leidos de la tabla compra, busco los correspondientes datos necesarios para construir el objeto
-        ProductoDAO daop = new ProductoDAO();
-        WalletDAO daow = new WalletDAO();
-        Producto producto = daop.selectProducto(idproducto);
-        Wallet wallet = daow.selectWallet(idwallet);
-        Compra compra = new Compra(idcompra, producto, wallet, fecha);
-        return compra;
+        try (Connection c = Conexion.getConnection()) {
+            ProductoDAO daop = new ProductoDAO(c);
+            WalletDAO daow = new WalletDAO(c);
+            Producto producto = daop.selectProducto(idproducto);
+            Wallet wallet = daow.selectWallet(idwallet);
+            compra = new Compra(idcompra, producto, wallet, fecha);
+        } catch (SQLException e) {
+            //si hay algún problema en la conexión y no llega a entrar en el try, me devuelve una compra vacía.
+            compra = new Compra();
+        }
+        return compra;        
     }
-
 }

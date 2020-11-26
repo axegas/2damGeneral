@@ -53,9 +53,13 @@ public class DevolucionDAO {
             }
         } finally {
             try {
-                Conexion.close(rs);
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (rs != null) {
+                    Conexion.close(rs);
+                }
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -83,9 +87,13 @@ public class DevolucionDAO {
             }
         } finally {
             try {
-                Conexion.close(rs);
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (rs != null) {
+                    Conexion.close(rs);
+                }
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -110,8 +118,10 @@ public class DevolucionDAO {
             registros = stmt.executeUpdate();
         } finally {
             try {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -134,8 +144,10 @@ public class DevolucionDAO {
             registros = stmt.executeUpdate();
         } finally {
             try {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -156,8 +168,10 @@ public class DevolucionDAO {
             registros = stmt.executeUpdate();
         } finally {
             try {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -169,16 +183,20 @@ public class DevolucionDAO {
 
     //este método me sirve para leer, a partir del ResultSet, el objeto actual, para que esté un poco más claro
     private Devolucion crearDevolucion(ResultSet rs) throws SQLException {
-
         int iddevolucion = rs.getInt("iddevolucion");
         int idcompra = rs.getInt("idcompra");
         Date fecha = rs.getDate("fecha");
+        Devolucion devolucion;
 
         //a partir del idcompra leido de la tabla devolución, busco la compra para construir el objeto
-        CompraDAO daoc = new CompraDAO();
-        Compra c = daoc.selectCompra(idcompra);
-
-        Devolucion devolucion = new Devolucion(iddevolucion, c, fecha);
+        try (Connection c = Conexion.getConnection()) {
+            CompraDAO daoc = new CompraDAO(c);
+            Compra compra = daoc.selectCompra(idcompra);
+            devolucion = new Devolucion(iddevolucion, compra, fecha);            
+        }catch(SQLException e){
+            //si hay algún problema en la conexión y no llega a entrar en el try, me devuelve una devolución vacía.
+            devolucion = new Devolucion();
+        }
         return devolucion;
     }
 

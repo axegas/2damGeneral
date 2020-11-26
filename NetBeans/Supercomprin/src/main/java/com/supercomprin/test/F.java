@@ -57,8 +57,6 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
-            } else {
-                System.out.println("No se ha podido conectar");
             }
             realizada = false;
         }
@@ -70,7 +68,6 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
     public static void pagarCompraConPuntos(Wallet w, Producto p) {
         boolean realizada = true;
         Connection conexion = null;
-        int contador = 0;
         try {
             conexion = Conexion.getConnection();
             if (conexion.getAutoCommit()) {
@@ -103,18 +100,23 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
-            } else {
-                System.out.println("No se ha podido conectar");
             }
             realizada = false;
         }
-        
+
         if (realizada) {
             System.out.println("Gracias por su compra");
         }
     }
 
     public static void devolverProducto(Compra c) {
+        //esta comparación hace falta en este ejercicio, porque como estoy creando devoluciones aleatorias, 
+        //es posible que le llegue una compra de tipo "new Compra()", y en ese caso me daría error.
+        //para evitarlo, valido si la compra es de ese tipo, y en caso afirmativo salgo de la funcion.
+        //esto no haría falta en un caso real, ya que en un caso real no se hacen devoluciones aleatorias.
+        if(c.getIdCompra() == 0){
+            return;
+        }
         boolean devuelto = true;
         Connection conexion = null;
         try {
@@ -154,8 +156,6 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
-            } else {
-                System.out.println("No se ha podido conectar");
             }
             devuelto = false;
         }
@@ -194,13 +194,59 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
-            } else {
-                System.out.println("No se ha podido conectar");
-            }
+            } 
             realizada = false;
         }
         if (realizada) {
             System.out.println("Gracias por su recarga.");
+        }
+    }
+
+    //método para insertar el producto
+    public static void insertarProducto(Producto p) {
+        Connection conexion = null;
+        try {
+            conexion = Conexion.getConnection();
+            if (conexion.getAutoCommit()) {
+                conexion.setAutoCommit(false);
+            }
+
+            ProductoDAO daop = new ProductoDAO(conexion);
+            daop.insert(p);
+            conexion.commit();
+        } catch (SQLException e) {
+            if (conexion != null) {
+                try {
+                    conexion.rollback();
+                    System.out.println("Rollback: " + e.getMessage());
+                } catch (SQLException ex) {
+                    System.out.println("Error al hacer el rollback");
+                }
+            }
+        }
+    }
+
+    //método para insertar el wallet
+    public static void insertarWallet(Wallet w) {
+        Connection conexion = null;
+        try {
+            conexion = Conexion.getConnection();
+            if (conexion.getAutoCommit()) {
+                conexion.setAutoCommit(false);
+            }
+
+            WalletDAO daow = new WalletDAO(conexion);
+            daow.insert(w);
+            conexion.commit();
+        } catch (SQLException e) {
+            if (conexion != null) {
+                try {
+                    conexion.rollback();
+                    System.out.println("Rollback: " + e.getMessage());
+                } catch (SQLException ex) {
+                    System.out.println("Error al hacer el rollback");
+                }
+            } 
         }
     }
 

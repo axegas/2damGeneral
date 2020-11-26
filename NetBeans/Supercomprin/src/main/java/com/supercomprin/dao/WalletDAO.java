@@ -51,9 +51,13 @@ public class WalletDAO {
             }
         } finally {
             try {
-                Conexion.close(rs);
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (rs != null) {
+                    Conexion.close(rs);
+                }
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -81,9 +85,13 @@ public class WalletDAO {
             }
         } finally {
             try {
-                Conexion.close(rs);
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (rs != null) {
+                    Conexion.close(rs);
+                }
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -111,8 +119,10 @@ public class WalletDAO {
             registros = stmt.executeUpdate();
         } finally {
             try {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -140,8 +150,10 @@ public class WalletDAO {
             registros = stmt.executeUpdate();
         } finally {
             try {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
@@ -162,8 +174,10 @@ public class WalletDAO {
             registros = stmt.executeUpdate();
         } finally {
             try {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
+                if (stmt != null) {
+                    Conexion.close(stmt);
+                }
+                if (this.conexionTransaccional == null && conn != null) {
                     Conexion.close(conn);
                 }
             } catch (SQLException e) {
