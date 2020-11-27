@@ -27,6 +27,12 @@ public class Test {
 
     public static void main(String args[]) throws SQLException {
 
+        
+        
+        
+        
+        
+        
         try {
             WalletDAO daow = new WalletDAO();
             ProductoDAO daop = new ProductoDAO();
@@ -124,7 +130,7 @@ public class Test {
                 System.out.println("No hay ninguna compra");
                 return;
             }
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 200; i++) {
                 int n = r.nextInt(compras.size());
                 F.devolverProducto(compras.get(n));
             }

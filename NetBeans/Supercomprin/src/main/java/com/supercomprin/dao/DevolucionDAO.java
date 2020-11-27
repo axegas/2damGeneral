@@ -8,8 +8,6 @@ package com.supercomprin.dao;
 import com.conectar.Conexion;
 import com.supercomprin.model.Compra;
 import com.supercomprin.model.Devolucion;
-import com.supercomprin.model.Producto;
-import com.supercomprin.model.Wallet;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
