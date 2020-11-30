@@ -48,6 +48,7 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             daoc.insert(c);
 
             conexion.commit();
+            conexion.close();
 
         } catch (SQLException e) {
             if (conexion != null) {
@@ -91,6 +92,7 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
                 conexion.rollback();
             }
             conexion.commit();
+            conexion.close();
 
         } catch (SQLException e) {
             if (conexion != null) {
@@ -114,7 +116,7 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
         //es posible que le llegue una compra de tipo "new Compra()", y en ese caso me daría error.
         //para evitarlo, valido si la compra es de ese tipo, y en caso afirmativo salgo de la funcion.
         //esto no haría falta en un caso real, ya que en un caso real no se hacen devoluciones aleatorias.
-        if(c.getIdCompra() == 0){
+        if (c.getIdCompra() == 0) {
             return;
         }
         boolean devuelto = true;
@@ -148,11 +150,13 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             }
 
             conexion.commit();
+            conexion.close();
         } catch (SQLException e) {
             if (conexion != null) {
                 try {
                     conexion.rollback();
                     System.out.println("Rollback: " + e.getMessage());
+                    conexion.close();
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
@@ -180,21 +184,24 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             daow.update(w);
 
             //comprobar que estamos en la fecha correcta
-//            int dia = Integer.parseInt((new SimpleDateFormat("dd")).format(new java.util.Date()));
-//            if (dia > 5) {
-//                conexion.rollback();
-//                System.out.println("Rollback: No puede hacer la recarga, fuera de fecha.");
-//            }
+            int dia = Integer.parseInt((new SimpleDateFormat("dd")).format(new java.util.Date()));
+            if (dia > 5) {
+                conexion.rollback();
+                System.out.println("Rollback: No puede hacer la recarga, fuera de fecha.");
+                realizada = false;
+            }
             conexion.commit();
+            conexion.close();
         } catch (SQLException e) {
             if (conexion != null) {
                 try {
                     conexion.rollback();
                     System.out.println("Rollback: " + e.getMessage());
+                    conexion.close();
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
-            } 
+            }
             realizada = false;
         }
         if (realizada) {
@@ -214,14 +221,17 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
             ProductoDAO daop = new ProductoDAO(conexion);
             daop.insert(p);
             conexion.commit();
+            conexion.close();
         } catch (SQLException e) {
             if (conexion != null) {
                 try {
                     conexion.rollback();
                     System.out.println("Rollback: " + e.getMessage());
+                    conexion.close();
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
+
             }
         }
     }
@@ -237,16 +247,19 @@ public class F {//En esta clase implemento las funciones básicas para gestionar
 
             WalletDAO daow = new WalletDAO(conexion);
             daow.insert(w);
+
             conexion.commit();
+            conexion.close();
         } catch (SQLException e) {
             if (conexion != null) {
                 try {
                     conexion.rollback();
                     System.out.println("Rollback: " + e.getMessage());
+                    conexion.close();
                 } catch (SQLException ex) {
                     System.out.println("Error al hacer el rollback");
                 }
-            } 
+            }
         }
     }
 
