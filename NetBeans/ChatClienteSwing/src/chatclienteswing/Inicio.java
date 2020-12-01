@@ -5,8 +5,8 @@
  */
 package chatclienteswing;
 
-import clases.Usuario;
 import clases.Util;
+import clases.Usuario;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -43,7 +43,7 @@ public class Inicio extends JFrame {
         JPanel panel = new JPanel(null);
         setContentPane(panel);
 
-        JLabel titulo = new JLabel("Introduce tu nombre: " +  getIp());
+        JLabel titulo = new JLabel("Introduce tu nombre: " + getIp());
         titulo.setBounds(10, 10, 500, 10);
         panel.add(titulo);
 
@@ -62,7 +62,7 @@ public class Inicio extends JFrame {
     public void click(String str) {
         try {
             Usuario user = new Usuario(str);
-            JOptionPane.showMessageDialog(this,user + getIp());
+            JOptionPane.showMessageDialog(this,user);
             user.setIp(getIp());
             
             Cliente c = new Cliente(user);

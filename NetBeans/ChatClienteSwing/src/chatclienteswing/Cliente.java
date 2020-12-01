@@ -5,9 +5,9 @@
  */
 package chatclienteswing;
 
-import clases.Paquete;
-import clases.Usuario;
 import clases.Util;
+import clases.Usuario;
+import clases.Paquete;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
@@ -57,7 +57,7 @@ public class Cliente extends JFrame {
         Usuario dest = null;
         Paquete p = new Paquete(user, dest, "");
         //p.send(Util.IP_SERVIDOR(), Util.PUERTO_SERVIDOR());
-        p.send("192.168.1.34", 9000);
+        p.send("192.168.26.108",9000);
     }
 
     private void initComponents() {
@@ -68,7 +68,7 @@ public class Cliente extends JFrame {
         setContentPane(panel);
 
         JLabel nombre = new JLabel("Nombre: " + user);
-        nombre.setBounds(20, 15, 75, 30);
+        nombre.setBounds(20, 15, 100, 30);
         panel.add(nombre);
 
         listaUsers = new JComboBox();
@@ -94,10 +94,10 @@ public class Cliente extends JFrame {
             Paquete p = new Paquete(user, destino, txtMensaje.getText());
             chat.append("Yo: " + txtMensaje.getText() + "\n");
             //p.send(Util.IP_SERVIDOR(), Util.PUERTO_SERVIDOR());
-            p.send("192.168.1.34", 9000);
+            p.send("192.168.26.108",9000);
             txtMensaje.setText("");
         } catch (IOException ex) {
-            ex.printStackTrace();
+            ex.printStackTrace(System.out);
         }
     }
 

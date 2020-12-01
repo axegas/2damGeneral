@@ -6,8 +6,8 @@
 package chatservidorswing;
 
 import clases.Paquete;
-import clases.Usuario;
 import clases.Util;
+import clases.Usuario;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
@@ -26,7 +26,7 @@ public class Servidor extends JFrame {
 
     private Thread thread;
     private JTextArea chat;
-    private ArrayList<Usuario> usuarios;
+    private final ArrayList<Usuario> usuarios;
 
     /**
      * @param args the command line arguments
@@ -78,7 +78,7 @@ public class Servidor extends JFrame {
                     Paquete p = new Paquete(null, null, "");
                     p.setUsuarios(usuarios);
                     for (int i = 0; i < usuarios.size(); i++) {
-                        p.send(usuarios.get(i).getIp(), Util.PUERTO_CLIENTE());
+                        p.send(usuarios.get(i).getIp(), 9999);
                     }
                     chat.append("Usuario " + paqueteEntrada.getOrigen() + " conectado.\n");
                 }
@@ -86,7 +86,7 @@ public class Servidor extends JFrame {
             }
         } catch (ClassNotFoundException | IOException ex) {
             //System.out.println(ex.getMessage());
-            ex.printStackTrace();
+            ex.printStackTrace(System.out);
         }
     }
 
