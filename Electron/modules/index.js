@@ -3,7 +3,7 @@ const _ = require('lodash')
 const moment = require ('moment');
 
 
-/*
+
 let datos = [
     {nombre: "Nacho", telefono: "966112233", edad: 40},
     {nombre: "Ana", telefono: "911223344", edad: 35},
@@ -21,5 +21,16 @@ let datos = [
 let nombres = ["Nacho", "Ana", "Mario", "Laura"];
 
 let s = _.join(nombres,',')
-console.log(s)
-*/
+//console.log(s)
+//console.log(now)
+
+
+let now = moment();
+let before = moment ("10-05-2015", "DD-MM-YYYY");
+let after = moment("20-12-2021", "DD-MM-YYYY");
+
+
+
+
+
+console.log(before.format("DD-MM-yyyy"))

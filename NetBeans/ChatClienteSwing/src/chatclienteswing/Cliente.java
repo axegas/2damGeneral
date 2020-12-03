@@ -5,11 +5,11 @@
  */
 package chatclienteswing;
 
-import clases.Util;
 import clases.Usuario;
 import clases.Paquete;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -28,7 +29,7 @@ import javax.swing.JTextField;
  */
 public class Cliente extends JFrame {
 
-    private final Usuario user;
+    private Usuario user;
     private Usuario destino;
     private Thread thread;
     private JPanel panel;
@@ -37,14 +38,22 @@ public class Cliente extends JFrame {
     private JComboBox listaUsers;
     private ArrayList<Usuario> usuarios;
     private Usuario[] usuariosArray;
-
-    public Cliente(Usuario user) throws IOException {
-        this.user = user;
-        this.destino = user;
+    
+    public Cliente() throws IOException {
         usuarios = new ArrayList<>();
         initComponents();
         conectar();
         iniciar();
+    }
+
+    public static void main(String[] args) {
+        Cliente servidor;
+        try {
+            servidor = new Cliente();
+            servidor.setVisible(true);
+        } catch (IOException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
     private void iniciar() {
@@ -57,16 +66,21 @@ public class Cliente extends JFrame {
         Usuario dest = null;
         Paquete p = new Paquete(user, dest, "");
         //p.send(Util.IP_SERVIDOR(), Util.PUERTO_SERVIDOR());
-        p.send("192.168.26.108",9000);
+        p.send("192.168.26.108", 9000);
     }
 
     private void initComponents() {
         setBounds(300, 300, 420, 380);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Chat");
+
         panel = new JPanel(null);
         setContentPane(panel);
-
+        
+        String m = JOptionPane.showInputDialog("Introduce tu nombre");
+        user = new Usuario(m);
+        user.setIp(getIp());
+        
         JLabel nombre = new JLabel("Nombre: " + user);
         nombre.setBounds(20, 15, 100, 30);
         panel.add(nombre);
@@ -76,7 +90,7 @@ public class Cliente extends JFrame {
         listaUsers.addItemListener(e -> destino = (Usuario) listaUsers.getSelectedItem());
         panel.add(listaUsers);
 
-        chat = new JTextArea("");        
+        chat = new JTextArea("");
         chat.setEditable(false);
         JScrollPane sp = new JScrollPane(chat);
         sp.setBounds(20, 60, 370, 200);
@@ -94,7 +108,7 @@ public class Cliente extends JFrame {
             Paquete p = new Paquete(user, destino, txtMensaje.getText());
             chat.append("Yo: " + txtMensaje.getText() + "\n");
             //p.send(Util.IP_SERVIDOR(), Util.PUERTO_SERVIDOR());
-            p.send("192.168.26.108",9000);
+            p.send("192.168.26.108", 9000);
             txtMensaje.setText("");
         } catch (IOException ex) {
             ex.printStackTrace(System.out);
@@ -125,5 +139,17 @@ public class Cliente extends JFrame {
         } catch (ClassNotFoundException | IOException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    public static String getIp() {
+        String ip = "";
+        try {
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress("google.com", 80));
+            ip = socket.getLocalAddress().getHostAddress();
+        } catch (IOException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return ip;
     }
 }

@@ -80,7 +80,7 @@ public class Servidor extends JFrame {
                     for (int i = 0; i < usuarios.size(); i++) {
                         p.send(usuarios.get(i).getIp(), 9999);
                     }
-                    chat.append("Usuario " + paqueteEntrada.getOrigen() + " conectado.\n");
+                    chat.append("Usuario " + paqueteEntrada.getOrigen() + " conectado en la IP: " + paqueteEntrada.getOrigen().getIp() +"\n");
                 }
                 socketRecibido.close();
             }
