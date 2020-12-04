@@ -3,35 +3,41 @@ package com.example.calculadorahp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tvResultado;
+    //TextViews
+    private TextView tvResultado; //para mostrar el resultado
+    private TextView tvOperacion; //para mostrar, si es el caso, la operación seleccionada
 
-    private Button num1;
-    private Button num2;
-    private Button num3;
-    private Button num4;
-    private Button num5;
-    private Button num6;
-    private Button num7;
-    private Button num8;
-    private Button num9;
-    private Button num0;
-    private Button punto;
+    //botones
+    //números
+    private Button btn1;
+    private Button btn2;
+    private Button btn3;
+    private Button btn4;
+    private Button btn5;
+    private Button btn6;
+    private Button btn7;
+    private Button btn8;
+    private Button btn9;
+    private Button btn0;
+    private Button btnPunto;
 
-    private Button mult;
-    private Button div;
-    private Button rest;
-    private Button suma;
-    private Button igual;
+    //operaciones
+    private Button btnC;
+    private Button btnBorrar;
+    private Button btnMultiplicacion;
+    private Button btnDivision;
+    private Button btnResta;
+    private Button btnSuma;
+    private Button btnIgual;
 
-    private double op1;
-    private double op2;
-
-    private int op;
+    private double numero;//número guardado para calcular
+    private int IDoperacion;//ID de la operación en curso
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,135 +48,124 @@ public class MainActivity extends AppCompatActivity {
         initButtons();
     }
 
+    //busco los elementos a partir de la ID
     private void initViews() {
         tvResultado = (TextView) findViewById(R.id.tvResultado);
-        num1 = (Button) findViewById(R.id.num1);
-        num2 = (Button) findViewById(R.id.num2);
-        num3 = (Button) findViewById(R.id.num3);
-        num4 = (Button) findViewById(R.id.num4);
-        num5 = (Button) findViewById(R.id.num5);
-        num6 = (Button) findViewById(R.id.num6);
-        num7 = (Button) findViewById(R.id.num7);
-        num8 = (Button) findViewById(R.id.num8);
-        num9 = (Button) findViewById(R.id.num9);
-        num0 = (Button) findViewById(R.id.num0);
-        punto = (Button) findViewById(R.id.punto);
+        tvOperacion = (TextView) findViewById(R.id.tvOperacion);
 
-        mult = (Button) findViewById(R.id.mult);
-        div = (Button) findViewById(R.id.div);
-        rest = (Button) findViewById(R.id.rest);
-        suma = (Button) findViewById(R.id.suma);
-        igual = (Button) findViewById(R.id.igual);
+        btn1 = (Button) findViewById(R.id.btn1);
+        btn2 = (Button) findViewById(R.id.btn2);
+        btn3 = (Button) findViewById(R.id.btn3);
+        btn4 = (Button) findViewById(R.id.btn4);
+        btn5 = (Button) findViewById(R.id.btn5);
+        btn6 = (Button) findViewById(R.id.btn6);
+        btn7 = (Button) findViewById(R.id.btn7);
+        btn8 = (Button) findViewById(R.id.btn8);
+        btn9 = (Button) findViewById(R.id.btn9);
+        btn0 = (Button) findViewById(R.id.btn0);
+        btnPunto = (Button) findViewById(R.id.btnPunto);
+
+        btnMultiplicacion = (Button) findViewById(R.id.btnMultiplicacion);
+        btnDivision = (Button) findViewById(R.id.btnDivision);
+        btnResta = (Button) findViewById(R.id.btnResta);
+        btnSuma = (Button) findViewById(R.id.btnSuma);
+        btnIgual = (Button) findViewById(R.id.btnIgual);
+
+        btnBorrar = (Button) findViewById(R.id.btnBorrar);
+        btnC = (Button) findViewById(R.id.btnC);
     }
 
+    //en este método inicializo los listeners de los botones
     private void initButtons() {
-        num1.setOnClickListener(v -> clickNum(num1));
-        num2.setOnClickListener(v -> clickNum(num2));
-        num3.setOnClickListener(v -> clickNum(num3));
-        num4.setOnClickListener(v -> clickNum(num4));
-        num5.setOnClickListener(v -> clickNum(num5));
-        num6.setOnClickListener(v -> clickNum(num6));
-        num7.setOnClickListener(v -> clickNum(num7));
-        num8.setOnClickListener(v -> clickNum(num8));
-        num9.setOnClickListener(v -> clickNum(num9));
-        num0.setOnClickListener(v -> clickNum(num0));
-        punto.setOnClickListener(v -> clickNum(punto));
+        btn1.setOnClickListener(b -> clickNumero((Button) b));
+        btn2.setOnClickListener(b -> clickNumero((Button) b));
+        btn3.setOnClickListener(b -> clickNumero((Button) b));
+        btn4.setOnClickListener(b -> clickNumero((Button) b));
+        btn5.setOnClickListener(b -> clickNumero((Button) b));
+        btn6.setOnClickListener(b -> clickNumero((Button) b));
+        btn7.setOnClickListener(b -> clickNumero((Button) b));
+        btn8.setOnClickListener(b -> clickNumero((Button) b));
+        btn9.setOnClickListener(b -> clickNumero((Button) b));
+        btn0.setOnClickListener(b -> clickNumero((Button) b));
+        btnPunto.setOnClickListener(b -> clickNumero((Button) b));
 
-        mult.setOnClickListener(v -> clickOp(mult));
-        div.setOnClickListener(v -> clickOp(div));
-        rest.setOnClickListener(v -> clickOp(rest));
-        suma.setOnClickListener(v -> clickOp(suma));
+        btnMultiplicacion.setOnClickListener(b -> clickOperacion((Button) b));
+        btnDivision.setOnClickListener(b -> clickOperacion((Button) b));
+        btnResta.setOnClickListener(b -> clickOperacion((Button) b));
+        btnSuma.setOnClickListener(b -> clickOperacion((Button) b));
+        btnIgual.setOnClickListener(b -> clickOperacion((Button) b));
 
-        igual.setOnClickListener(v -> clickIgual());
+        btnBorrar.setOnClickListener(b -> clickBorrar());
+        btnC.setOnClickListener(b -> clickC());
     }
 
-    private void clickIgual() {
-        op2 = Double.parseDouble(tvResultado.getText().toString());
-        if(op!=0){
-            switch (op){
-                case R.id.mult:
-                    tvResultado.setText(Double.toString(op1*op2));
-                    break;
-                case R.id.rest:
-                    tvResultado.setText(Double.toString(op1-op2));
-                    break;
-                case R.id.suma:
-                    tvResultado.setText(Double.toString(op1+op2));
-                    break;
-                case R.id.div:
-                    tvResultado.setText(Double.toString(op1/op2));
-                    break;
-                default:
-                    break;
-            }
+    //para borrar la última cifra del número en pantalla
+    private void clickC() {
+        if(tvResultado.getText().equals("")){
+            return;
         }
-        op = 0;
+        String str = tvResultado.getText().toString();
+        str = str.substring(0,str.length()-1);
+        if(str.charAt(str.length()-1)=='.'){
+            str = str.substring(0,str.length()-1);
+        }
+        tvResultado.setText(str);
     }
 
-    private void clickOp(Button b) {
-        op1 = Double.parseDouble(tvResultado.getText().toString());
+    //borrar toda la pantalla y los datos acumulados
+    private void clickBorrar() {
+        numero = 0;
+        IDoperacion = 0;
         tvResultado.setText("");
-        if(op==0) {
-            switch (b.getId()) {
-                case R.id.mult:
-                    op = R.id.mult;
-                    break;
-                case R.id.rest:
-                    op = R.id.rest;
-                    break;
-                case R.id.suma:
-                    op = R.id.suma;
-                    break;
-                case R.id.div:
-                    op = R.id.div;
-                    break;
-                default:
-                    break;
-            }
+        tvOperacion.setText("");
+    }
+
+    //capturar la operación a realizar y el número en pantalla. las operaciones se acumulan
+    private void clickOperacion(Button b){
+        if(tvResultado.getText().equals("")){
+            return;
+        }
+        numero = calcula(IDoperacion);
+        IDoperacion = b.getId();
+        if(IDoperacion==R.id.btnIgual){
+            tvResultado.setText(Double.toString(numero));
+            tvOperacion.setText("");
+        }else{
+            tvOperacion.setText(numero + " " + b.getText());
+            tvResultado.setText("");
         }
     }
 
-    private void clickNum(Button v) {
+    //mostrar en pantalla el número pulsado
+    private void clickNumero(Button b) {
         String tv = tvResultado.getText().toString();
+        if(b.getId()==R.id.btnPunto && (tv.contains(".") || tv.equals(""))) // validar si, en el caso de que haya pulsado el punto, sea correcto introducirlo
+            return;
+        tv += b.getText();
+        tvResultado.setText(tv);
+    }
 
-        switch (v.getId()){
-            case R.id.num1:
-                tv += 1;
+    //funcion auxiliar para calcular
+    private double calcula(int n){
+        double aux = Double.parseDouble(tvResultado.getText().toString());
+        double resultado;
+        switch (n){
+            case R.id.btnMultiplicacion:
+                resultado = numero * aux;
                 break;
-            case R.id.num2:
-                tv += 2;
+            case R.id.btnResta:
+                resultado = numero - aux;
                 break;
-            case R.id.num3:
-                tv += 3;
+            case R.id.btnSuma:
+                resultado = numero + aux;
                 break;
-            case R.id.num4:
-                tv += 4;
-                break;
-            case R.id.num5:
-                tv += 5;
-                break;
-            case R.id.num6:
-                tv += 6;
-                break;
-            case R.id.num7:
-                tv += 7;
-                break;
-            case R.id.num8:
-                tv += 8;
-                break;
-            case R.id.num9:
-                tv += 9;
-                break;
-            case R.id.num0:
-                tv += 0;
-                break;
-            case R.id.punto:
-                if(!tv.contains("."))
-                    tv += ".";
+            case R.id.btnDivision:
+                resultado = numero / aux;
                 break;
             default:
+                resultado = aux;
                 break;
         }
-        tvResultado.setText(tv);
+        return resultado;
     }
 }

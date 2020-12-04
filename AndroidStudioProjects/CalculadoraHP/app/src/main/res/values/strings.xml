@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CalculadoraHP</string>
+    <string name="app_name">Calculadora</string>
     <string name="_7">7</string>
     <string name="x">×</string>
     <string name="_6">6</string>
@@ -17,4 +17,7 @@
     <string name="igual">=</string>
     <string name="suma">+</string>
     <string name="resultado">resultado</string>
+    <string name="del">DEL</string>
+    <string name="c">C</string>
+    <string name="textview">TextView</string>
 </resources>

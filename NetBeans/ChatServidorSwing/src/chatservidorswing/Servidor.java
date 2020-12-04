@@ -6,7 +6,6 @@
 package chatservidorswing;
 
 import clases.Paquete;
-import clases.Util;
 import clases.Usuario;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,7 +13,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -31,9 +29,8 @@ public class Servidor extends JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        Servidor servidor = new Servidor();
-        servidor.setVisible(true);
+    public static void main(String[] args) {        
+        new Servidor().setVisible(true);
     }
 
     public Servidor() {
@@ -55,8 +52,7 @@ public class Servidor extends JFrame {
 
         chat = new JTextArea("");
         chat.setEditable(false);
-        JScrollPane sp = new JScrollPane(chat);
-        add(sp);
+        add(new JScrollPane(chat));
     }
 
     private void threading() {
@@ -85,9 +81,7 @@ public class Servidor extends JFrame {
                 socketRecibido.close();
             }
         } catch (ClassNotFoundException | IOException ex) {
-            //System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
         }
     }
-
 }

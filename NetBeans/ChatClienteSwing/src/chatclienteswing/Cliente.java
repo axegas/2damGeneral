@@ -29,6 +29,8 @@ import javax.swing.JTextField;
  */
 public class Cliente extends JFrame {
 
+    private final String casa = "192.168.1.34";
+    private final String clase = "192.168.26.108";
     private Usuario user;
     private Usuario destino;
     private Thread thread;
@@ -38,8 +40,8 @@ public class Cliente extends JFrame {
     private JComboBox listaUsers;
     private ArrayList<Usuario> usuarios;
     private Usuario[] usuariosArray;
-    
-    public Cliente() throws IOException {
+
+    public Cliente() {
         usuarios = new ArrayList<>();
         initComponents();
         conectar();
@@ -47,13 +49,7 @@ public class Cliente extends JFrame {
     }
 
     public static void main(String[] args) {
-        Cliente servidor;
-        try {
-            servidor = new Cliente();
-            servidor.setVisible(true);
-        } catch (IOException ex) {
-            ex.printStackTrace(System.out);
-        }
+        new Cliente().setVisible(true);
     }
 
     private void iniciar() {
@@ -62,11 +58,14 @@ public class Cliente extends JFrame {
         thread.start();
     }
 
-    private void conectar() throws IOException {
-        Usuario dest = null;
-        Paquete p = new Paquete(user, dest, "");
-        //p.send(Util.IP_SERVIDOR(), Util.PUERTO_SERVIDOR());
-        p.send("192.168.26.108", 9000);
+    private synchronized void conectar() {
+        try {
+            Paquete p = new Paquete(user, destino, "");
+            destino = user;      
+            p.send(casa, 9000);
+        } catch (IOException e) {
+            e.printStackTrace(System.out);
+        }        
     }
 
     private void initComponents() {
@@ -76,14 +75,14 @@ public class Cliente extends JFrame {
 
         panel = new JPanel(null);
         setContentPane(panel);
-        
+
         String m = JOptionPane.showInputDialog("Introduce tu nombre");
         user = new Usuario(m);
         user.setIp(getIp());
-        
-        JLabel nombre = new JLabel("Nombre: " + user);
-        nombre.setBounds(20, 15, 100, 30);
-        panel.add(nombre);
+
+        JLabel lblNombre = new JLabel("Nombre: " + user);
+        lblNombre.setBounds(20, 15, 100, 30);
+        panel.add(lblNombre);
 
         listaUsers = new JComboBox();
         listaUsers.setBounds(240, 20, 150, 30);
@@ -103,12 +102,11 @@ public class Cliente extends JFrame {
 
     }
 
-    private void enviar() {
+    private synchronized void enviar() {
         try {
             Paquete p = new Paquete(user, destino, txtMensaje.getText());
             chat.append("Yo: " + txtMensaje.getText() + "\n");
-            //p.send(Util.IP_SERVIDOR(), Util.PUERTO_SERVIDOR());
-            p.send("192.168.26.108", 9000);
+            p.send(casa, 9000);
             txtMensaje.setText("");
         } catch (IOException ex) {
             ex.printStackTrace(System.out);
@@ -131,7 +129,7 @@ public class Cliente extends JFrame {
                 } else {
                     usuarios = paqueteEntrada.getUsuarios();
                     usuariosArray = new Usuario[usuarios.size()];
-                    usuariosArray = usuarios.toArray(usuariosArray);
+                    usuariosArray = usuarios.toArray(usuariosArray);                    
                     listaUsers.setModel(new DefaultComboBoxModel(usuariosArray));
                 }
                 socketRecibido.close();
