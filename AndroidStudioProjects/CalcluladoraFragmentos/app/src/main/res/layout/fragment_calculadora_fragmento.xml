@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".CalculadoraFragmento">
+
+    <TextView
+        android:id="@+id/tvResultado"
+        style="@style/AppTheme.TextView"
+        android:height="160dp"
+        android:gravity="bottom|end"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/tvOperacion"
+        android:layout_below="@id/tvResultado"
+        style="@style/AppTheme.TextView"
+        android:height="90dp"
+        android:gravity="center|end"
+        android:textSize="25sp"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvOperacion"
+        android:columnCount="4"
+        android:useDefaultMargins="true">
+
+        <Button
+            android:id="@+id/btnC"
+            style="@style/AppTheme.BotonCalculadora.Rojo"
+            android:text="@string/c" />
+
+        <Button
+            android:id="@+id/btnDivision"
+            style="@style/AppTheme.BotonCalculadora.Rojo"
+            android:text="@string/dividir" />
+
+        <Button
+            android:id="@+id/btnMultiplicacion"
+            style="@style/AppTheme.BotonCalculadora.Rojo"
+            android:text="@string/x" />
+
+        <Button
+            android:id="@+id/btnBorrar"
+            style="@style/AppTheme.BotonCalculadora.Rojo"
+            android:text="@string/del" />
+
+        <Button
+            android:id="@+id/btn7"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_7" />
+
+        <Button
+            android:id="@+id/btn8"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_8" />
+
+        <Button
+            android:id="@+id/btn9"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_9" />
+
+        <Button
+            android:id="@+id/btnResta"
+            style="@style/AppTheme.BotonCalculadora.Rojo"
+            android:text="@string/menos" />
+
+        <Button
+            android:id="@+id/btn4"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_4" />
+
+        <Button
+            android:id="@+id/btn5"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_5" />
+
+        <Button
+            android:id="@+id/btn6"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_6" />
+
+        <Button
+            android:id="@+id/btnSuma"
+            style="@style/AppTheme.BotonCalculadora.Rojo"
+            android:text="@string/suma" />
+
+        <Button
+            android:id="@+id/btn1"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_1" />
+
+        <Button
+            android:id="@+id/btn2"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_2" />
+
+        <Button
+            android:id="@+id/btn3"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_3" />
+
+        <Button
+            android:id="@+id/btnIgual"
+            android:layout_rowSpan="2"
+            style="@style/AppTheme.BotonCalculadora.Rojo"
+            android:text="@string/igual" />
+
+        <Button
+            android:id="@+id/btn0"
+            android:layout_columnSpan="2"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_0" />
+
+        <Button
+            android:id="@+id/btnPunto"
+            style="@style/AppTheme.BotonCalculadora.Azul"
+            android:text="@string/_." />
+    </GridLayout>
+</RelativeLayout>

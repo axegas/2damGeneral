@@ -45,6 +45,6 @@ public class BlankFragment extends Fragment {
         edit = (EditText) view.findViewById(R.id.main_editText);
         text = (TextView) view.findViewById(R.id.main_textview);
 
-        return inflater.inflate(R.layout.fragment_blank, container, false);
+        return view;
     }
 }
