@@ -3,16 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.supercomprin.model;
+package mx.com.gm.sga.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-/**
- *
- * @author axegas
- */
-public class Wallet {
 
+@Entity
+public class Wallet implements Serializable{
+     private static final long SerialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int idwallet;
     private String nombre;
     private String apellidos;
@@ -38,7 +44,7 @@ public class Wallet {
         this.edad = edad;
     }
 
-    public Wallet(String nombre, String apellidos, String dni, Date fechanacimiento, String email) {
+    public Wallet(String nombre, String apellidos, String dni, Date fechanacimiento, String email, int edad) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.dni = dni;
@@ -46,6 +52,7 @@ public class Wallet {
         this.email = email;
         this.puntos = 0;
         this.saldo = 0;
+        this.edad = edad;
     }
 
     public int getIdWallet() {
@@ -122,7 +129,15 @@ public class Wallet {
 
     @Override
     public String toString() {
-        return "Wallet{" + "idWallet=" + idwallet + ", nombre=" + nombre + ", apellidos=" + apellidos + ", dni=" + dni + ", fechaNacimiento=" + fechanacimiento + ", email=" + email + ", puntos=" + puntos + ", saldo=" + saldo + "}\n";
+        return "Wallet{" + "idWallet=" + idwallet + ", nombre=" + nombre + ", apellidos=" + apellidos + ", dni=" + dni + ", fechaNacimiento=" + fechanacimiento + ", email=" + email + ", puntos=" + puntos + ", saldo=" + saldo + "}";
+    }
+
+    public int getIdwallet() {
+        return idwallet;
+    }
+
+    public void setIdwallet(int idwallet) {
+        this.idwallet = idwallet;
     }
 
 }

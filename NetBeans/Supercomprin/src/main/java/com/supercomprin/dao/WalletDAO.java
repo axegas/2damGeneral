@@ -197,7 +197,8 @@ public class WalletDAO {
         String email = rs.getString("email");
         int puntos = rs.getInt("puntos");
         float saldo = rs.getFloat("saldo");
-        Wallet wallet = new Wallet(idwallet, nombre, apellidos, dni, fechanacimiento, email, puntos, saldo);
+        int edad = rs.getInt("edad");
+        Wallet wallet = new Wallet(idwallet, nombre, apellidos, dni, fechanacimiento, email, puntos, saldo, edad);
         return wallet;
     }
 
