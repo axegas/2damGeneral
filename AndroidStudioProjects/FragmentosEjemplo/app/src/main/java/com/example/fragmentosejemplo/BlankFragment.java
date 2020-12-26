@@ -34,12 +34,7 @@ public class BlankFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
-
-
-
-
 
         boton = (Button) view.findViewById(R.id.main_button);
         edit = (EditText) view.findViewById(R.id.main_editText);

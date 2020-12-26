@@ -1,0 +1,6 @@
+servlets/Controller.class
+servlets/EliminarAction.class
+mx/com/gm/sga/domain/Contacto.class
+servlets/AltaAction.class
+modelo/GestionContactos.class
+servlets/RecuperarAction.class

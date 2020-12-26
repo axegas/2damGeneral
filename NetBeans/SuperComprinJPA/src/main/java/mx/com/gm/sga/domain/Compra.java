@@ -48,19 +48,19 @@ public class Compra implements Serializable {
         this.idcompra = idcompra;
     }
 
-    public int getProducto() {
+    public int getIdProducto() {
         return idproducto;
     }
 
-    public void setProducto(int idproducto) {
+    public void setIdProducto(int idproducto) {
         this.idproducto = idproducto;
     }
 
-    public int getWallet() {
+    public int getIdWallet() {
         return idwallet;
     }
 
-    public void setWallet(int idwallet) {
+    public void setIdWallet(int idwallet) {
         this.idwallet = idwallet;
     }
 
@@ -74,7 +74,7 @@ public class Compra implements Serializable {
 
     @Override
     public String toString() {
-        return "Compra{" + "idCompra=" + idcompra + ", producto=" + idproducto + ", wallet=" + idwallet + ", fecha=" + fecha + '}';
+        return "idCompra: " + idcompra + ", idproducto: " + idproducto + ", idwallet: " + idwallet + ", fecha: " + fecha;
     }
 
     public int getIdcompra() {

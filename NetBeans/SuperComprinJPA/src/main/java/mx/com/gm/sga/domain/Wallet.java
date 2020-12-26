@@ -12,13 +12,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
+/**
+ *
+ * @author peixe
+ */
 @Entity
-public class Wallet implements Serializable{
-     private static final long SerialVersionUID = 1L;
+public class Wallet implements Serializable {
+
+    private static final long SerialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idwallet;
     private String nombre;
     private String apellidos;
@@ -28,6 +32,18 @@ public class Wallet implements Serializable{
     private int puntos;
     private float saldo;
     private int edad;
+
+    //constructor para insertar
+    public Wallet(String nombre, String apellidos, String dni, Date fechanacimiento, String email, int edad) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.dni = dni;
+        this.fechanacimiento = fechanacimiento;
+        this.email = email;
+        this.puntos = 0;
+        this.saldo = 0;
+        this.edad = edad;
+    }
 
     public Wallet() {
     }
@@ -44,22 +60,11 @@ public class Wallet implements Serializable{
         this.edad = edad;
     }
 
-    public Wallet(String nombre, String apellidos, String dni, Date fechanacimiento, String email, int edad) {
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.dni = dni;
-        this.fechanacimiento = fechanacimiento;
-        this.email = email;
-        this.puntos = 0;
-        this.saldo = 0;
-        this.edad = edad;
-    }
-
-    public int getIdWallet() {
+    public int getIdwallet() {
         return idwallet;
     }
 
-    public void setIdWallet(int idwallet) {
+    public void setIdwallet(int idwallet) {
         this.idwallet = idwallet;
     }
 
@@ -69,14 +74,6 @@ public class Wallet implements Serializable{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
     }
 
     public String getApellidos() {
@@ -95,11 +92,11 @@ public class Wallet implements Serializable{
         this.dni = dni;
     }
 
-    public Date getFechaNacimiento() {
+    public Date getFechanacimiento() {
         return fechanacimiento;
     }
 
-    public void setFechaNacimiento(Date fechanacimiento) {
+    public void setFechanacimiento(Date fechanacimiento) {
         this.fechanacimiento = fechanacimiento;
     }
 
@@ -127,17 +124,17 @@ public class Wallet implements Serializable{
         this.saldo = saldo;
     }
 
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
     @Override
     public String toString() {
-        return "Wallet{" + "idWallet=" + idwallet + ", nombre=" + nombre + ", apellidos=" + apellidos + ", dni=" + dni + ", fechaNacimiento=" + fechanacimiento + ", email=" + email + ", puntos=" + puntos + ", saldo=" + saldo + "}";
-    }
-
-    public int getIdwallet() {
-        return idwallet;
-    }
-
-    public void setIdwallet(int idwallet) {
-        this.idwallet = idwallet;
+        return "idwallet: " + idwallet + ", nombre: " + nombre + ", apellidos: " + apellidos + ", dni: " + dni + ", fechanacimiento: " + fechanacimiento + ", email: " + email + ", puntos: " + puntos + ", saldo: " + saldo + ", edad: " + edad;
     }
 
 }

@@ -1,0 +1,6 @@
+Github Axel Pérez Gaspar
+
+https://github.com/axegas/2dambueno <---
+dentro del github, tengo la carpeta AndroidStudioProjects/CalculadoraHP
+la URL directa: 
+https://github.com/axegas/2dambueno/tree/master/AndroidStudioProjects/CalculadoraHP

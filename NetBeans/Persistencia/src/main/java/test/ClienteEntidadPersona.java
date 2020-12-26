@@ -16,7 +16,7 @@ public class ClienteEntidadPersona {
         //iniciamos la transacción
         tx.begin();
         Persona persona1 = new Persona("nombre", "apellidos", "email", 32);
-        //log.debug("Objeto a persistir: " + persona1);
+        log.debug("Objeto a persistir: " + persona1);
 
         //persistimos el objeto
         //em.persist(persona1);

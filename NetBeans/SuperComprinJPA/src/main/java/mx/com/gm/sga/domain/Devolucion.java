@@ -63,7 +63,7 @@ public class Devolucion implements Serializable {
 
     @Override
     public String toString() {
-        return "Devolucion{" + "iddevolucion=" + iddevolucion + ", compra=" + idcompra + ", fecha=" + fecha + '}';
+        return "iddevolucion: " + iddevolucion + ", compra: " + idcompra + ", fecha: " + fecha;
     }
 
     public int getIddevolucion() {

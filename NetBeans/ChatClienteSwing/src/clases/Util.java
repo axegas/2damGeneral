@@ -6,6 +6,7 @@
 package clases;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -33,6 +34,8 @@ public class Util {
     }
 
     public static String getIp() {
+   
+        
         String ip = "";
         try {
             Socket socket = new Socket();
